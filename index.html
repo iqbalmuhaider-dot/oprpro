@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro (Fixed)</title>
+    <title>Sistem Generator OPR Pro (Full Version)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -16,49 +16,106 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     
     <style>
-        .opr-app-wrapper { font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; background-color: #f1f5f9; position: relative; }
+        /* WRAPPER UTAMA */
+        .opr-app-wrapper { 
+            font-family: 'Inter', sans-serif; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            background-color: #f1f5f9; 
+            position: relative; 
+            color: #334155;
+        }
         .font-serif { font-family: 'Playfair Display', serif; }
-        .pattern-dots { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
         
-        .a4-page { width: 210mm; height: 297mm; background: white; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin: 0 auto; position: relative; box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; color: #1e293b; background-color: #ffffff; }
-        .img-fit { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+        /* Corak Background */
+        .pattern-dots {
+            background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        /* --- A4 Styles (Paparan Skrin) --- */
+        .a4-page {
+            width: 210mm;
+            height: 297mm;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            color: #1e293b;
+            background-color: #ffffff;
+        }
 
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.6s ease-out forwards; }
+        .img-fit {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
 
+        /* --- PRINT STYLES (ISOLASI MUTLAK) --- */
         @media print {
             @page { margin: 0; size: A4 portrait; }
+            
             body * { visibility: hidden; }
             body, html { margin: 0 !important; padding: 0 !important; height: 100%; overflow: visible !important; background: white !important; }
+            
             #preview-container, #preview-container * { visibility: visible; }
-            #preview-container { position: fixed !important; left: 0 !important; top: 0 !important; width: 210mm !important; height: 297mm !important; margin: 0 !important; padding: 0 !important; z-index: 999999; background: white !important; box-shadow: none !important; transform: none !important; display: flex !important; flex-direction: column !important; }
-            #selection-screen, #sidebar, #print-btn-container, #suggestion-modal, #auth-bar, #admin-dashboard, #login-page, .opr-app-wrapper { display: none !important; }
+            
+            #preview-container {
+                position: fixed !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                z-index: 999999;
+                background: white !important;
+                box-shadow: none !important;
+                transform: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+            }
+
+            #selection-screen, #sidebar, #print-btn-container, #suggestion-modal, #auth-bar, #admin-dashboard, #login-page, .opr-app-wrapper {
+                display: none !important;
+            }
         }
+
+        /* Animation */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-up { animation: fadeUp 0.6s ease-out forwards; }
     </style>
 </head>
 <body>
 
-    <!-- HALAMAN LOGIN -->
-    <div id="login-page" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center p-6 text-center text-slate-800">
+    <!-- HALAMAN LOGIN (TEMA PUTIH BERSIH) -->
+    <div id="login-page" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center p-6">
         <div class="absolute inset-0 pattern-dots opacity-50 pointer-events-none"></div>
-        <div class="relative z-10 max-w-md w-full bg-white border border-slate-200 p-10 rounded-2xl shadow-2xl animate-fade-up">
-            <img src="https://i.postimg.cc/s2BpLNZw/Untitled-design.png" class="h-32 w-auto mx-auto mb-6 hover:scale-105 transition-transform duration-300" alt="Logo Syarikat">
-            <h1 class="text-3xl font-extrabold mb-2 tracking-tight text-slate-900">Sistem OPR Pro</h1>
-            <p class="text-slate-500 text-sm mb-8">Jana laporan sekolah bergambar dengan pantas dan profesional.</p>
-            <button onclick="window.loginGoogle()" class="w-full bg-white text-slate-700 hover:bg-slate-50 border border-slate-300 font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 transition transform hover:scale-105 shadow-sm hover:shadow-md group">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5">
+        <div class="relative z-10 max-w-md w-full bg-white border border-slate-200 p-10 rounded-2xl shadow-xl animate-fade-up text-center">
+            <img src="https://i.postimg.cc/s2BpLNZw/Untitled-design.png" class="h-32 w-auto mx-auto mb-8 hover:scale-105 transition-transform duration-300" alt="Logo Syarikat">
+            <h1 class="text-3xl font-extrabold mb-3 tracking-tight text-slate-900">Sistem OPR Pro</h1>
+            <p class="text-slate-500 text-sm mb-8 leading-relaxed">Jana laporan sekolah bergambar dengan pantas dan profesional.</p>
+            <button onclick="window.loginGoogle()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 transition transform hover:scale-[1.02] shadow-lg group">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-4 h-4">
                 <span>Log Masuk dengan Google</span>
-                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-slate-700 transition"></i>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 group-hover:text-white transition"></i>
             </button>
-            <div class="mt-8 border-t border-slate-100 pt-6">
-                <p class="text-xs text-slate-400">Akses Percuma & Premium<br><span class="opacity-70">© 2024 Hak Cipta Terpelihara</span></p>
-            </div>
+            <p class="mt-8 text-xs text-slate-400 font-medium">Akses Percuma (Template Asas) & Premium (Semua Template)</p>
         </div>
     </div>
 
-    <!-- APP UTAMA -->
+    <!-- APP WRAPPER -->
     <div class="opr-app-wrapper hidden" id="main-app">
-        
         <!-- HEADER -->
         <div id="auth-bar" class="bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm z-50">
             <div class="font-bold text-slate-700 flex items-center gap-3">
@@ -84,24 +141,27 @@
             </div>
             <div class="flex-1 overflow-y-auto p-6">
                 <div class="max-w-6xl mx-auto space-y-6">
+                    <!-- Stats -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-slate-500 text-xs font-bold uppercase">Jumlah Whitelist</div><div class="text-3xl font-bold text-blue-600 mt-1" id="stat-whitelist">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-slate-500 text-xs font-bold uppercase">Jumlah Download</div><div class="text-3xl font-bold text-red-600 mt-1" id="stat-downloads">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-slate-500 text-xs font-bold uppercase">Jumlah Cetakan</div><div class="text-3xl font-bold text-green-600 mt-1" id="stat-prints">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-slate-500 text-xs font-bold uppercase">Template Popular</div><div class="text-xl font-bold text-purple-600 mt-1 truncate" id="stat-popular">-</div></div>
                     </div>
+                    <!-- Whitelist -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4"></i> Pengurusan Whitelist & Tempoh</h3>
                         <div class="flex gap-2 mb-4 flex-col sm:flex-row">
-                            <input type="email" id="new-whitelist-email" placeholder="Email pengguna..." class="flex-1 p-2 border rounded text-sm">
-                            <div class="flex items-center gap-1 border rounded px-2 bg-slate-50"><span class="text-xs text-slate-500">Tamat:</span><input type="date" id="new-whitelist-expiry" class="p-2 bg-transparent text-sm"></div>
+                            <input type="email" id="new-whitelist-email" placeholder="Email pengguna..." class="flex-1 p-2 border rounded text-sm focus:outline-none focus:border-blue-500">
+                            <div class="flex items-center gap-1 border rounded px-2 bg-slate-50"><span class="text-xs text-slate-500">Tamat:</span><input type="date" id="new-whitelist-expiry" class="p-2 bg-transparent text-sm focus:outline-none"></div>
                             <button onclick="window.addToWhitelist()" class="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700">Tambah</button>
                         </div>
-                        <div class="overflow-y-auto max-h-60 border rounded"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b sticky top-0"><tr><th class="p-3">Email</th><th class="p-3">Tamat</th><th class="p-3 text-right">Tindakan</th></tr></thead><tbody id="whitelist-table-body" class="divide-y"></tbody></table></div>
+                        <div class="overflow-y-auto max-h-60 border rounded"><table class="w-full text-sm text-left"><thead class="bg-slate-50 text-slate-500 font-bold border-b sticky top-0"><tr><th class="p-3">Email</th><th class="p-3">Tamat Tempoh</th><th class="p-3 text-right">Tindakan</th></tr></thead><tbody id="whitelist-table-body" class="divide-y"></tbody></table></div>
                     </div>
+                    <!-- Logs -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Log Aktiviti</h3>
-                        <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">Masa</th><th class="p-3">Email</th><th class="p-3">Aktiviti</th></tr></thead><tbody id="logs-table-body" class="divide-y text-slate-700"></tbody></table></div>
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Log Aktiviti Terkini</h3>
+                        <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 text-slate-500 font-bold border-b"><tr><th class="p-3">Masa</th><th class="p-3">Email</th><th class="p-3">Aktiviti</th><th class="p-3">Butiran</th></tr></thead><tbody id="logs-table-body" class="divide-y text-slate-700"></tbody></table></div>
                     </div>
                 </div>
             </div>
@@ -120,17 +180,24 @@
 
         <!-- EDITOR SCREEN -->
         <div id="editor-screen" class="flex flex-col md:flex-row h-full hidden flex-1 overflow-hidden">
+            <!-- Sidebar -->
             <div id="sidebar" class="w-full md:w-[380px] bg-white border-r border-slate-200 flex flex-col h-full shadow-2xl z-20">
                 <div class="p-3 border-b border-slate-100 flex items-center gap-3 bg-slate-50">
-                    <button onclick="window.showSelection()" class="p-2 hover:bg-slate-200 rounded-full transition"><i data-lucide="grid" class="w-5 h-5 text-slate-600"></i></button>
+                    <button onclick="window.showSelection()" class="p-2 hover:bg-slate-200 rounded-full transition" title="Tukar Template"><i data-lucide="grid" class="w-5 h-5 text-slate-600"></i></button>
                     <h2 class="font-bold text-slate-800 text-sm">Editor Data</h2>
                     <div class="ml-auto text-xs bg-slate-200 px-2 py-1 rounded font-bold text-slate-700" id="tpl-badge">T1</div>
                 </div>
                 <div class="flex-1 overflow-y-auto p-4 space-y-5 scrollbar-thin">
                     <div class="space-y-2">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="home" class="w-3 h-3"></i> Info Sekolah</h3>
-                        <div class="grid grid-cols-3 gap-2"><div class="col-span-2"><input type="text" id="sekolah" oninput="window.updateData()" placeholder="Nama Sekolah" class="w-full px-3 py-2 border rounded text-xs font-bold"></div><div class="col-span-1"><input type="text" id="kodSekolah" oninput="window.updateData()" placeholder="Kod" class="w-full px-3 py-2 border rounded text-xs font-bold text-center"></div></div>
-                        <div class="flex items-center gap-2 mt-1"><label class="flex-1 cursor-pointer bg-slate-50 border border-dashed border-slate-300 hover:bg-slate-100 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2"><i data-lucide="image-plus" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Logo</span><input type="file" accept="image/*" onchange="window.handleLogo(this)" class="hidden"></label></div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div class="col-span-2"><input type="text" id="sekolah" oninput="window.updateData()" placeholder="Nama Sekolah" class="w-full px-3 py-2 border rounded text-xs font-bold focus:border-blue-500"></div>
+                            <div class="col-span-1"><input type="text" id="kodSekolah" oninput="window.updateData()" placeholder="Kod" class="w-full px-3 py-2 border rounded text-xs font-bold text-center"></div>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <label class="flex-1 cursor-pointer bg-slate-50 border border-dashed border-slate-300 hover:bg-slate-100 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2"><i data-lucide="image-plus" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Logo</span><input type="file" accept="image/*" onchange="window.handleLogo(this)" class="hidden"></label>
+                            <button onclick="window.removeLogo()" class="hidden p-1.5 text-red-500 hover:bg-red-50 rounded border"><i data-lucide="trash" class="w-3 h-3"></i></button>
+                        </div>
                     </div>
                     <hr class="border-slate-100">
                     <div class="space-y-2">
@@ -147,16 +214,16 @@
                     <hr class="border-slate-100">
                     <div class="space-y-4">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Laporan</h3>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full flex gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full flex gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Impak / Catatan</label><button onclick="window.openSuggestions('impak')" class="text-[9px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full flex gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="impak" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Impak / Catatan</label><button onclick="window.openSuggestions('impak')" class="text-[9px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full hover:bg-purple-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="impak" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
                     </div>
                     <hr class="border-slate-100">
                     <div class="space-y-2 pb-6">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tandatangan</h3>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disediakan:</label><input type="text" id="sediaNama" oninput="window.updateData()" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sediaJawatan" oninput="window.updateData()" class="w-full p-1 border rounded text-[9px]"></div>
-                            <div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disahkan:</label><input type="text" id="sahNama" oninput="window.updateData()" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sahJawatan" oninput="window.updateData()" class="w-full p-1 border rounded text-[9px]"></div>
+                            <div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Disediakan:</label><input type="text" id="sediaNama" oninput="window.updateData()" placeholder="Nama Guru" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sediaJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px] text-slate-500"></div>
+                            <div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 uppercase font-bold block mb-1">Disahkan:</label><input type="text" id="sahNama" oninput="window.updateData()" placeholder="Nama Pentadbir" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sahJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px] text-slate-500"></div>
                         </div>
                     </div>
                 </div>
@@ -165,6 +232,7 @@
                     <button id="btn-download" onclick="window.downloadPDF()" class="w-full bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-lg font-bold shadow-lg flex items-center justify-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Download PDF</button>
                 </div>
             </div>
+            <!-- PREVIEW AREA -->
             <div id="preview-area" class="flex-1 overflow-y-auto flex justify-center p-8 items-start bg-slate-500">
                 <div id="preview-container" class="a4-page transition-all duration-300 origin-top"></div>
             </div>
@@ -173,17 +241,17 @@
 
     <!-- MODAL CADANGAN -->
     <div id="suggestion-modal" class="fixed inset-0 z-[99999] bg-black/60 hidden flex items-center justify-center p-4 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl overflow-hidden">
+        <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl overflow-hidden animate-bounce-in">
             <div class="p-4 border-b flex justify-between items-center bg-slate-50"><h3 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="list-plus" class="w-5 h-5 text-blue-600"></i> Pilih Ayat Cadangan</h3><button onclick="window.closeSuggestions()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button></div>
             <div id="suggestion-list" class="p-0 max-h-[60vh] overflow-y-auto"></div>
         </div>
     </div>
 
-    <!-- CORE JS (Ditakrifkan dulu sebelum Firebase) -->
     <script>
-        // Data & Variables
-        let currentTemplate = 1, images = [], logo = null, currentField = '';
+        // --- CORE VARIABLES ---
+        let currentTemplate = 1, images = [], logo = null, currentField = ''; 
         let data = { sekolah: "SK MASJID TANAH", kodSekolah: "MBA0001", program: "PROGRAM MINGGU BAHASA MELAYU", tarikh: "20 MEI 2024", tempat: "DEWAN GEMILANG", anjuran: "PANITIA BAHASA MELAYU", objektif: "1. Mencungkil bakat murid.\n2. Memartabatkan Bahasa Melayu.", aktiviti: "1. Perasmian oleh Guru Besar.\n2. Pertandingan bercerita.\n3. Pertandingan pidato.\n4. Penyampaian hadiah.", impak: "Murid menunjukkan minat yang mendalam.", sediaNama: "CIKGU AMIRUL", sediaJawatan: "Setiausaha Program", sahNama: "PN HJH ZAINAB", sahJawatan: "Guru Besar" };
+        
         const templates = [
             { id: 1, name: "Standard Rasmi", color: "blue", desc: "Format KPM Asas", free: true },
             { id: 2, name: "Moden Minimalis", color: "emerald", desc: "Bersih & Kemas", free: true },
@@ -202,23 +270,70 @@
             { id: 15, name: "Vibrant", color: "yellow", desc: "Kontras Tinggi", free: false },
             { id: 16, name: "Laporan Rasmi 2", color: "zinc", desc: "Variasi KPM", free: false }
         ];
-        const suggestions = { objektif: ["Mencungkil bakat terpendam.", "Memupuk semangat kerjasama.", "Mengeratkan silaturrahim.", "Meningkatkan keyakinan diri."], aktiviti: ["Pendaftaran peserta.", "Ucapan perasmian.", "Sesi bergambar.", "Penyampaian hadiah."], impak: ["Program berjalan lancar.", "Objektif berjaya dicapai.", "Kehadiran menggalakkan."] };
 
-        // Global Window Functions
+        const suggestions = {
+            objektif: ["Mencungkil bakat terpendam.", "Memupuk semangat kerjasama.", "Mengeratkan silaturrahim.", "Meningkatkan keyakinan diri.", "Melahirkan murid seimbang (JERI)."],
+            aktiviti: ["Pendaftaran peserta.", "Taklimat ringkas.", "Ucapan perasmian.", "Gimik pelancaran.", "Sesi bergambar.", "Penyampaian hadiah."],
+            impak: ["Program berjalan lancar.", "Objektif berjaya dicapai.", "Kehadiran menggalakkan.", "Murid seronok & ceria.", "Disiplin terkawal."]
+        };
+
+        // --- GLOBAL WINDOW FUNCTIONS ---
         window.loadInputs = function() { for (const [k, v] of Object.entries(data)) { const el = document.getElementById(k); if (el) el.value = v; } };
-        window.updateData = function() { Object.keys(data).forEach(id => { const el = document.getElementById(id); if(el) data[id] = el.value.toUpperCase(); }); renderPreview(); };
-        window.selectTemplate = function(id) { currentTemplate = id; document.getElementById('selection-screen').classList.add('hidden'); document.getElementById('editor-screen').classList.remove('hidden'); document.getElementById('tpl-badge').innerText = `T${id}`; window.loadInputs(); renderPreview(); };
-        window.showSelection = function() { document.getElementById('selection-screen').classList.remove('hidden'); document.getElementById('editor-screen').classList.add('hidden'); if(window.generateTemplateButtons) window.generateTemplateButtons(); };
-        window.handleLogo = function(input) { if (input.files[0]) { const r = new FileReader(); r.onload = (e) => { logo = e.target.result; renderPreview(); }; r.readAsDataURL(input.files[0]); } };
-        window.handleImages = function(input) { const f = Array.from(input.files); if(images.length + f.length > 6) { alert("Max 6"); return; } f.forEach(fl => { const r = new FileReader(); r.onload = e => { images.push(e.target.result); updateThumb(); renderPreview(); }; r.readAsDataURL(fl); }); input.value = ''; };
+        
+        window.updateData = function() { 
+            Object.keys(data).forEach(id => { const el = document.getElementById(id); if(el) data[id] = el.value.toUpperCase(); }); 
+            renderPreview(); 
+        };
+
+        window.selectTemplate = function(id) { 
+            currentTemplate = id; 
+            document.getElementById('selection-screen').classList.add('hidden'); 
+            document.getElementById('editor-screen').classList.remove('hidden'); 
+            document.getElementById('tpl-badge').innerText = `T${id}`; 
+            window.loadInputs(); 
+            renderPreview(); 
+        };
+
+        window.showSelection = function() { 
+            document.getElementById('selection-screen').classList.remove('hidden'); 
+            document.getElementById('editor-screen').classList.add('hidden'); 
+            if(window.generateTemplateButtons) window.generateTemplateButtons(); 
+        };
+
+        window.handleLogo = function(input) { 
+            if (input.files[0]) { const r = new FileReader(); r.onload = (e) => { logo = e.target.result; renderPreview(); }; r.readAsDataURL(input.files[0]); } 
+        };
+        window.removeLogo = function() { logo = null; renderPreview(); };
+
+        window.handleImages = function(input) { 
+            const f = Array.from(input.files); 
+            if(images.length + f.length > 6) { alert("Max 6 gambar!"); return; } 
+            f.forEach(fl => { const r = new FileReader(); r.onload = e => { images.push(e.target.result); updateThumb(); renderPreview(); }; r.readAsDataURL(fl); }); 
+            input.value = ''; 
+        };
+        
         window.clearImages = function() { images = []; updateThumb(); renderPreview(); };
         window.removeImage = function(i) { images.splice(i, 1); updateThumb(); renderPreview(); };
-        function updateThumb() { const g = document.getElementById('image-grid'); const btn = document.getElementById('add-img-btn'); Array.from(g.children).forEach(c => c.id !== 'add-img-btn' && g.removeChild(c)); document.getElementById('img-count').innerText = `(${images.length}/6)`; images.forEach((s,i) => { const d = document.createElement('div'); d.className = "relative aspect-square bg-slate-100 rounded border overflow-hidden group"; d.innerHTML = `<img src="${s}" class="w-full h-full object-cover"><button onclick="window.removeImage(${i})" class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center"><i data-lucide="x"></i></button>`; g.insertBefore(d, btn); }); lucide.createIcons(); }
-        
-        window.openSuggestions = function(type) { currentField = type; const list = document.getElementById('suggestion-list'); list.innerHTML = ''; suggestions[type].forEach((t, i) => { const b = document.createElement('button'); b.className = "w-full text-left text-xs p-3 border-b hover:bg-blue-50 flex gap-2"; b.innerHTML = `<span class="font-bold text-blue-500">${i+1}.</span> ${t}`; b.onclick = () => { const el = document.getElementById(currentField); const v = el.value.trim(); const n = v ? v.split('\n').length + 1 : 1; el.value = v ? v + `\n${n}. ${t}` : `1. ${t}`; window.updateData(); window.closeSuggestions(); }; list.appendChild(b); }); document.getElementById('suggestion-modal').classList.remove('hidden'); };
+
+        function updateThumb() { 
+            const g = document.getElementById('image-grid'); 
+            const btn = document.getElementById('add-img-btn'); 
+            Array.from(g.children).forEach(c => c.id !== 'add-img-btn' && g.removeChild(c)); 
+            document.getElementById('img-count').innerText = `(${images.length}/6)`; 
+            images.forEach((s,i) => { const d = document.createElement('div'); d.className = "relative aspect-square bg-slate-100 rounded border overflow-hidden group"; d.innerHTML = `<img src="${s}" class="w-full h-full object-cover"><button onclick="window.removeImage(${i})" class="absolute inset-0 bg-black/50 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center"><i data-lucide="x"></i></button>`; g.insertBefore(d, btn); }); 
+            lucide.createIcons(); 
+        }
+
+        window.openSuggestions = function(type) { 
+            currentField = type; 
+            const list = document.getElementById('suggestion-list'); 
+            list.innerHTML = ''; 
+            suggestions[type].forEach((t, i) => { const b = document.createElement('button'); b.className = "w-full text-left text-xs p-3 border-b hover:bg-blue-50 flex gap-2"; b.innerHTML = `<span class="font-bold text-blue-500">${i+1}.</span> ${t}`; b.onclick = () => { const el = document.getElementById(currentField); const v = el.value.trim(); const n = v ? v.split('\n').length + 1 : 1; el.value = v ? v + `\n${n}. ${t}` : `1. ${t}`; window.updateData(); window.closeSuggestions(); }; list.appendChild(b); }); 
+            document.getElementById('suggestion-modal').classList.remove('hidden'); 
+        };
         window.closeSuggestions = function() { document.getElementById('suggestion-modal').classList.add('hidden'); };
 
-        // Render Button Grid
+        // --- GENERATE BUTTONS ---
         window.generateTemplateButtons = function() {
             const grid = document.getElementById('template-grid');
             grid.innerHTML = '';
@@ -243,53 +358,119 @@
             lucide.createIcons();
         };
 
-        // PDF & Print
+        // --- PDF DOWNLOAD (OVERLAY ISOLATION) ---
         window.downloadPDF = function() {
-            if(window.trackStat) window.trackStat('downloads');
-            const el = document.getElementById('preview-container');
+            if(window.trackStat) window.trackStat('downloads', currentTemplate);
+            const element = document.getElementById('preview-container');
             const btn = document.getElementById('btn-download');
-            const old = btn.innerHTML; btn.innerHTML = "Menjana..."; btn.disabled = true;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Menjana...';
+            btn.disabled = true;
+            lucide.createIcons();
 
-            const ol = document.createElement('div');
-            Object.assign(ol.style, { position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'white', zIndex: 99999, display: 'block', overflow: 'hidden' });
-            const cl = el.cloneNode(true);
-            Object.assign(cl.style, { width: '210mm', height: '297mm', margin: '0', position: 'absolute', top: 0, left: 0, transform: 'none', boxShadow: 'none' });
-            ol.appendChild(cl); document.body.appendChild(ol);
+            // 1. Create Isolation Overlay
+            const overlay = document.createElement('div');
+            Object.assign(overlay.style, { 
+                position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', 
+                backgroundColor: 'white', zIndex: 999999, display: 'block', overflow: 'hidden' 
+            });
 
-            const opt = { margin: 0, filename: `OPR.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2, useCORS: true, scrollY: 0, width: 794, height: 1123, windowWidth: 794 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } };
-            setTimeout(() => { html2pdf().set(opt).from(cl).save().then(() => { document.body.removeChild(ol); btn.innerHTML = old; btn.disabled = false; }); }, 500);
+            // 2. Clone A4 Container
+            const clone = element.cloneNode(true);
+            Object.assign(clone.style, { 
+                width: '210mm', height: '297mm', margin: '0', 
+                position: 'absolute', top: 0, left: 0, transform: 'none', boxShadow: 'none' 
+            });
+
+            overlay.appendChild(clone);
+            document.body.appendChild(overlay);
+
+            // 3. Generate PDF
+            const opt = {
+                margin: 0,
+                filename: `OPR_${data.program.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, scrollY: 0, width: 794, height: 1123, windowWidth: 794, backgroundColor: '#ffffff' },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            setTimeout(() => {
+                html2pdf().set(opt).from(clone).save().then(() => {
+                    document.body.removeChild(overlay);
+                    btn.innerHTML = originalText; btn.disabled = false; lucide.createIcons();
+                }).catch(e => { 
+                    console.error(e); 
+                    if(document.body.contains(overlay)) document.body.removeChild(overlay); 
+                    btn.innerHTML = originalText; btn.disabled = false; lucide.createIcons(); 
+                });
+            }, 500);
         };
 
-        // Render Preview
+        const originalPrint = window.print;
+        window.print = function() {
+            if(window.trackStat) window.trackStat('prints', currentTemplate);
+            originalPrint();
+        };
+
+        // --- RENDER PREVIEW (16 TEMPLATES) ---
         function renderPreview() {
             const c = document.getElementById('preview-container');
             const { sekolah, kodSekolah, program, tarikh, tempat, anjuran, objektif, aktiviti, impak, sediaNama, sediaJawatan, sahNama, sahJawatan } = data;
             const fmt = t => t ? t.replace(/\n/g, '<br>') : '';
             const lg = logo ? `<img src="${logo}" class="img-fit object-contain">` : `<div class="text-xs text-gray-300 flex items-center justify-center h-full w-full">LOGO</div>`;
-            const imgs = (cls,h) => { let htm = `<div class="${cls}">`; if(images.length==0) return `<div class="w-full ${h} border-2 border-dashed border-gray-300 flex items-center justify-center text-xs text-gray-400">Muat naik 6 gambar</div>`; images.forEach((s,i)=> htm+=`<div class="${h} bg-gray-100 overflow-hidden relative border border-gray-200"><img src="${s}" class="img-fit"><div class="absolute bottom-1 right-1 bg-white/80 text-[10px] px-1 rounded shadow-sm opacity-50">#${i+1}</div></div>`); for(let i=images.length;i<6;i++) htm+=`<div class="${h} bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-300 text-[10px]">Foto ${i+1}</div>`; return htm+'</div>'; };
+            
+            const renderImgs = (cls, h) => {
+                let htm = `<div class="${cls}">`;
+                if(images.length === 0) return `<div class="w-full ${h} border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400 text-xs italic rounded">Sila muat naik 6 gambar</div>`;
+                images.forEach((s,i) => htm += `<div class="${h} bg-gray-100 overflow-hidden relative border border-gray-200 shadow-sm print:shadow-none"><img src="${s}" class="img-fit"><div class="absolute bottom-1 right-1 bg-white/80 text-[10px] px-1 rounded shadow-sm opacity-50">#${i+1}</div></div>`);
+                for(let i=images.length; i<6; i++) htm += `<div class="${h} bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-300 text-[10px]">Foto ${i+1}</div>`;
+                return htm + `</div>`;
+            };
 
             let html = '';
-            // Templat 1 (Standard)
-            if(currentTemplate === 1) html = `<div class="h-full w-full p-8 flex flex-col relative overflow-hidden"><div class="absolute inset-0 pattern-dots opacity-30 pointer-events-none"></div><div class="relative z-10 flex flex-col h-full border-2 border-double border-slate-300 p-6 bg-white/95"><div class="flex items-center border-b-2 border-blue-900 pb-2 mb-2"><div class="w-12 h-12 mr-4 border border-gray-200 p-1">${lg}</div><div class="flex-grow text-center"><h1 class="text-xl font-black uppercase text-blue-900 leading-tight">${sekolah}</h1><p class="text-xs text-slate-500 font-bold tracking-widest">${kodSekolah}</p></div><div class="w-12 text-right text-xs font-bold">${tarikh}</div></div><div class="text-center mb-2"><span class="bg-blue-900 text-white px-3 py-0.5 text-[9px] font-bold rounded-full uppercase">Laporan Program</span><h2 class="text-lg font-bold uppercase mt-1 text-slate-900 underline decoration-blue-300 decoration-4">${program}</h2></div><div class="bg-blue-50 border border-blue-100 p-1.5 mb-3 rounded text-[9px] grid grid-cols-2 gap-4 font-bold"><div class="flex"><span class="w-16 text-blue-900">TEMPAT</span>: ${tempat}</div><div class="flex"><span class="w-16 text-blue-900">ANJURAN</span>: ${anjuran}</div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="space-y-1 text-[10px] flex-grow text-justify leading-tight"><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">OBJEKTIF</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(objektif)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">LAPORAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(aktiviti)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">IMPAK</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(impak)}</div></div></div><div class="mt-auto pt-2 flex justify-between text-[10px] border-t border-slate-300"><div class="text-center w-1/3"><p class="mb-4 text-[9px] font-bold text-slate-500">Disediakan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sediaNama}</p><p class="text-[9px] mt-0.5">${sediaJawatan}</p></div><div class="text-center w-1/3"><p class="mb-4 text-[9px] font-bold text-slate-500">Disahkan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sahNama}</p><p class="text-[9px] mt-0.5">${sahJawatan}</p></div></div></div></div>`;
             
-            // Generic Fallback (Template 2-16)
+            // --- TEMPLATE LOGIC ---
+            if (currentTemplate === 1) { // Standard Blue
+                html = `<div class="h-full w-full p-8 flex flex-col relative bg-white"><div class="absolute inset-0 pattern-dots opacity-30 pointer-events-none"></div><div class="relative z-10 flex flex-col h-full border-2 border-double border-slate-300 p-6 bg-white/95"><div class="flex items-center border-b-2 border-blue-900 pb-2 mb-2"><div class="w-12 h-12 mr-4 border border-gray-200 p-1">${lg}</div><div class="flex-grow text-center"><h1 class="text-xl font-black uppercase text-blue-900 leading-tight">${sekolah}</h1><p class="text-xs text-slate-500 font-bold tracking-widest">${kodSekolah}</p></div><div class="w-12 text-right text-xs font-bold">${tarikh}</div></div><div class="text-center mb-2"><span class="bg-blue-900 text-white px-3 py-0.5 text-[9px] font-bold rounded-full uppercase">Laporan Program</span><h2 class="text-lg font-bold uppercase mt-1 text-slate-900 underline decoration-blue-300 decoration-4">${program}</h2></div><div class="bg-blue-50 border border-blue-100 p-1.5 mb-3 rounded text-[9px] grid grid-cols-2 gap-4 font-bold"><div class="flex"><span class="w-16 text-blue-900">TEMPAT</span>: ${tempat}</div><div class="flex"><span class="w-16 text-blue-900">ANJURAN</span>: ${anjuran}</div></div><div class="mb-3">${renderImgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="space-y-1 text-xs flex-grow text-justify leading-tight"><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">OBJEKTIF</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(objektif)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">LAPORAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(aktiviti)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">IMPAK</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(impak)}</div></div></div><div class="mt-auto pt-2 flex justify-between text-xs border-t border-slate-300"><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disediakan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sediaNama}</p><p class="mt-0.5">${sediaJawatan}</p></div><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disahkan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sahNama}</p><p class="mt-0.5">${sahJawatan}</p></div></div></div></div>`;
+            } else if (currentTemplate === 2) { // Modern Green
+                html = `<div class="h-full w-full flex bg-white"><div class="w-4 bg-emerald-600 h-full pattern-lines opacity-20"></div><div class="flex-1 p-8 flex flex-col"><div class="flex items-center gap-4 mb-3 border-b border-dashed border-emerald-200 pb-2"><div class="w-14 h-14 bg-gray-50 rounded-lg border p-1">${lg}</div><div><h1 class="text-xl font-bold text-emerald-900">${sekolah}</h1><div class="flex gap-3 text-xs text-emerald-700 font-bold"><span>${kodSekolah}</span><span>•</span><span>${tarikh}</span></div></div></div><div class="mb-3"><h2 class="text-xl font-bold text-emerald-900 uppercase">${program}</h2><div class="flex gap-3 text-xs font-bold mt-1"><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">📍 ${tempat}</span><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">🤝 ${anjuran}</span></div></div><div class="mb-3">${renderImgs('grid grid-cols-3 gap-3', 'h-44 rounded-lg')}</div><div class="grid grid-cols-1 gap-2 text-xs flex-grow leading-tight"><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Objektif</h4><p>${fmt(objektif)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Aktiviti</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Impak</h4><p>${fmt(impak)}</p></div></div><div class="mt-auto pt-2 border-t-2 border-emerald-600 flex justify-between text-xs"><div><span class="text-slate-500 block mb-2 font-bold">DISEDIAKAN:</span><span class="font-bold uppercase">${sediaNama}</span></div><div class="text-right"><span class="text-slate-500 block mb-2 font-bold">DISAHKAN:</span><span class="font-bold uppercase">${sahNama}</span></div></div></div></div>`;
+            } else if (currentTemplate === 3) { // Magazine Violet
+                html = `<div class="h-full w-full flex"><div class="w-[28%] bg-slate-900 text-white p-5 flex flex-col"><div class="w-16 h-16 bg-white p-1 rounded-full mb-4 self-center">${lg}</div><h1 class="text-xs font-bold text-center uppercase text-violet-300">${sekolah}</h1><p class="text-[10px] text-center text-slate-400 mb-6 font-mono">${kodSekolah}</p><div class="bg-slate-800 rounded p-3 mb-4 text-xs space-y-3 border border-slate-700"><div><span class="block text-slate-400 font-bold">TARIKH</span>${tarikh}</div><div><span class="block text-slate-400 font-bold">TEMPAT</span>${tempat}</div><div><span class="block text-slate-400 font-bold">ANJURAN</span>${anjuran}</div></div><div class="flex-grow space-y-4 text-xs text-slate-200 text-justify"><div><strong class="text-violet-400 block mb-1">OBJEKTIF</strong>${fmt(objektif)}</div><div><strong class="text-violet-400 block mb-1">IMPAK</strong>${fmt(impak)}</div></div><div class="mt-auto pt-4 border-t border-slate-700 text-center"><p class="text-[9px] text-slate-400 mb-2 font-bold">PENGESAHAN</p><p class="text-xs font-bold uppercase text-white">${sahNama}</p></div></div><div class="w-[72%] bg-white p-6 flex flex-col"><div class="border-b-4 border-violet-500 pb-2 mb-4"><h2 class="text-2xl font-bold uppercase text-slate-900 leading-tight">${program}</h2></div><div class="flex-grow mb-4">${renderImgs('grid grid-cols-2 gap-3 h-full', 'h-auto rounded')}</div><div class="bg-violet-50 p-3 border-l-4 border-violet-500 text-xs text-justify text-slate-800"><strong class="text-violet-900 block mb-1">RINGKASAN AKTIVITI:</strong>${fmt(aktiviti)}</div><div class="mt-3 text-right text-xs text-slate-500">Disediakan: <span class="font-bold text-slate-800 uppercase">${sediaNama}</span></div></div></div>`;
+            } else if (currentTemplate === 4) { // Corporate Red
+                html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="h-2 w-full bg-red-700 mb-4"></div><div class="flex gap-4 mb-4 border-b border-gray-200 pb-3"><div class="w-14 h-14 border p-0.5">${lg}</div><div class="flex-1"><h1 class="text-base font-bold text-slate-900 uppercase">${sekolah}</h1><h2 class="text-xl font-bold text-red-700 uppercase mt-1">${program}</h2></div></div><div class="mb-4">${renderImgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="grid grid-cols-2 gap-4 flex-grow text-xs text-justify"><div class="space-y-3"><div><h3 class="font-bold text-red-700 border-b border-red-200">OBJEKTIF</h3><p class="bg-red-50 p-2">${fmt(objektif)}</p></div><div><h3 class="font-bold text-red-700 border-b border-red-200">IMPAK</h3><p class="bg-red-50 p-2">${fmt(impak)}</p></div></div><div class="flex flex-col"><h3 class="font-bold text-red-700 border-b border-red-200">AKTIVITI</h3><p class="bg-slate-50 p-2 flex-grow mb-2">${fmt(aktiviti)}</p><div class="mt-auto grid grid-cols-2 gap-2 border-t pt-2 text-xs"><div><span class="text-slate-500 font-bold">DISEDIAKAN:</span><strong class="uppercase block">${sediaNama}</strong></div><div><span class="text-slate-500 font-bold">DISAHKAN:</span><strong class="uppercase block">${sahNama}</strong></div></div></div></div></div>`;
+            } else if (currentTemplate === 5) { // Dynamic Orange
+                html = `<div class="h-full w-full flex flex-col bg-white overflow-hidden relative"><div class="bg-orange-500 h-24 w-[150%] -ml-[25%] rounded-b-[100%] absolute top-0 z-0"></div><div class="relative z-10 p-8 flex flex-col h-full"><div class="text-center text-white mb-6"><div class="w-16 h-16 bg-white rounded-full p-1 mx-auto shadow-lg mb-2 flex items-center justify-center">${lg}</div><h2 class="text-2xl font-black uppercase drop-shadow-md">${program}</h2></div><div class="mb-4">${renderImgs('grid grid-cols-3 gap-3', 'h-44 rounded-xl shadow-md')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200"><h4 class="font-bold text-orange-600 mb-2">OBJEKTIF</h4><p>${fmt(objektif)}</p></div><div class="bg-orange-50 p-4 rounded-xl border border-orange-200"><h4 class="font-bold text-orange-600 mb-2">AKTIVITI & IMPAK</h4><p>${fmt(aktiviti)}</p><br><p class="italic text-slate-500">${fmt(impak)}</p></div></div><div class="mt-auto pt-3 flex justify-between items-center text-xs"><div>Disediakan: <strong class="uppercase">${sediaNama}</strong></div><div>Disahkan: <strong class="uppercase">${sahNama}</strong></div></div></div></div>`;
+            } else if (currentTemplate === 6) { // Elegant Black
+                 html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="border-[3px] border-slate-900 h-full p-1 flex flex-col"><div class="border border-slate-300 h-full p-5 flex flex-col"><div class="flex justify-between items-start mb-5"><div class="w-12 h-12 grayscale">${lg}</div><div class="text-right"><h1 class="text-[10px] font-bold uppercase tracking-[0.2em]">${sekolah}</h1><h2 class="text-2xl font-serif font-bold mt-1 uppercase">${program}</h2><div class="w-12 h-0.5 bg-yellow-600 ml-auto mt-2"></div></div></div><div class="mb-5">${renderImgs('grid grid-cols-3 gap-3', 'aspect-square bg-gray-50 shadow-md grayscale-[10%]')}</div><div class="grid grid-cols-3 gap-4 text-xs font-serif leading-relaxed text-justify flex-grow border-t border-slate-200 pt-4"><div><span class="font-sans font-bold text-[9px] uppercase tracking-widest block mb-2">Objektif</span><p>${fmt(objektif)}</p></div><div><span class="font-sans font-bold text-[9px] uppercase tracking-widest block mb-2">Aktiviti</span><p>${fmt(aktiviti)}</p></div><div><span class="font-sans font-bold text-[9px] uppercase tracking-widest block mb-2">Impak</span><p>${fmt(impak)}</p></div></div><div class="mt-auto pt-6 flex justify-between font-sans text-xs uppercase tracking-wider text-slate-500"><div><p class="mb-3">Disediakan Oleh</p><p class="text-slate-900 font-bold border-t border-slate-400 pt-1 inline-block min-w-[100px]">${sediaNama}</p></div><div class="text-right"><p class="mb-3">Disahkan Oleh</p><p class="text-slate-900 font-bold border-t border-slate-400 pt-1 inline-block min-w-[100px]">${sahNama}</p></div></div></div></div></div>`;
+            } 
+            // VARIATIONS FOR 7-16
             else {
-                let color='slate';
-                if(currentTemplate===2) color='emerald'; else if(currentTemplate===3) color='violet'; else if(currentTemplate===4) color='red'; else if(currentTemplate===5) color='orange'; else if(currentTemplate===6) color='slate';
-                html = `<div class="h-full w-full flex bg-white"><div class="w-4 bg-${color}-600 h-full pattern-lines opacity-20"></div><div class="flex-1 p-8 flex flex-col"><div class="flex items-center gap-4 mb-3 border-b border-dashed border-${color}-200 pb-2"><div class="w-14 h-14 bg-gray-50 rounded-lg border p-1">${lg}</div><div><h1 class="text-xl font-bold text-${color}-900 leading-none">${sekolah}</h1><div class="flex gap-3 text-xs text-${color}-700 mt-1 font-bold"><span>${kodSekolah}</span><span>•</span><span>${tarikh}</span></div></div></div><div class="mb-3"><h2 class="text-xl font-bold text-${color}-900 uppercase">${program}</h2><div class="flex gap-3 text-[10px] font-bold mt-1"><span class="bg-${color}-50 text-${color}-900 px-2 py-0.5 rounded border border-${color}-200">📍 ${tempat}</span><span class="bg-${color}-50 text-${color}-900 px-2 py-0.5 rounded border border-${color}-200">🤝 ${anjuran}</span></div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-3', 'h-44 rounded-lg')}</div><div class="grid grid-cols-1 gap-1 text-[10px] flex-grow leading-tight"><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-${color}-800 uppercase mb-0.5 text-[9px]">Objektif</h4><p>${fmt(objektif)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-${color}-800 uppercase mb-0.5 text-[9px]">Aktiviti</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-${color}-800 uppercase mb-0.5 text-[9px]">Impak</h4><p>${fmt(impak)}</p></div></div><div class="mt-auto pt-2 border-t-2 border-${color}-600 flex justify-between text-[10px]"><div><span class="text-slate-500 block mb-2 font-bold text-[9px]">DISEDIAKAN:</span><span class="font-bold uppercase">${sediaNama}</span></div><div class="text-right"><span class="text-slate-500 block mb-2 font-bold text-[9px]">DISAHKAN:</span><span class="font-bold uppercase">${sahNama}</span></div></div></div></div>`;
+                let color = 'slate';
+                const colors = ['gray', 'sky', 'pink', 'indigo', 'teal', 'amber', 'cyan', 'lime', 'yellow', 'zinc'];
+                color = colors[(currentTemplate - 7) % colors.length];
+                
+                // Variation logic based on index
+                if(currentTemplate % 2 === 0) {
+                     // Variation 1: Header Bar
+                     html = `<div class="h-full w-full flex bg-white"><div class="flex-1 p-8 flex flex-col"><div class="bg-${color}-600 text-white p-4 mb-4 flex justify-between items-center rounded-lg shadow"><div><h1 class="text-lg font-bold uppercase">${sekolah}</h1><p class="text-xs opacity-90">${kodSekolah}</p></div><div class="w-10 h-10 bg-white/20 rounded p-1">${lg}</div></div><div class="mb-4 text-center"><h2 class="text-xl font-bold uppercase text-${color}-800">${program}</h2></div><div class="mb-4">${renderImgs('grid grid-cols-3 gap-2', 'h-44 rounded')}</div><div class="space-y-3 text-xs flex-grow"><div class="border-l-4 border-${color}-500 pl-3"><h4 class="font-bold text-${color}-700">OBJEKTIF</h4><p>${fmt(objektif)}</p></div><div class="border-l-4 border-${color}-500 pl-3"><h4 class="font-bold text-${color}-700">AKTIVITI</h4><p>${fmt(aktiviti)}</p></div><div class="border-l-4 border-${color}-500 pl-3"><h4 class="font-bold text-${color}-700">IMPAK</h4><p>${fmt(impak)}</p></div></div>${signBlock}</div></div>`;
+                } else {
+                     // Variation 2: Simple Grid
+                     html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="border-b-2 border-${color}-200 pb-4 mb-4 flex items-end justify-between"><div><h1 class="text-xl font-black text-${color}-900 uppercase">${sekolah}</h1><h2 class="text-lg text-slate-600 font-bold uppercase">${program}</h2></div><div class="w-12 h-12">${lg}</div></div><div class="mb-4 bg-${color}-50 p-4 rounded-xl">${renderImgs('grid grid-cols-3 gap-2', 'h-40 rounded')}</div><div class="grid grid-cols-2 gap-6 text-xs flex-grow text-justify"><div><h3 class="font-bold text-${color}-700 border-b mb-2">OBJEKTIF</h3><p class="mb-4">${fmt(objektif)}</p><h3 class="font-bold text-${color}-700 border-b mb-2">IMPAK</h3><p>${fmt(impak)}</p></div><div><h3 class="font-bold text-${color}-700 border-b mb-2">AKTIVITI</h3><p>${fmt(aktiviti)}</p></div></div>${signBlock}</div>`;
+                }
             }
+
             c.innerHTML = html;
         }
+        
         document.addEventListener('DOMContentLoaded', () => { window.loadInputs(); lucide.createIcons(); });
     </script>
 
-    <!-- FIREBASE (MODULE) -->
+    <!-- FIREBASE MODULE -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, addDoc, increment, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, collection, getDocs, addDoc, updateDoc, increment, query, orderBy, limit, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // CONFIG FIREBASE ANDA
         const firebaseConfig = {
             apiKey: "AIzaSyBJPFXvvl0aFIxe2eNhtTbolhuJ-_kFpNA",
             authDomain: "eopr-d3941.firebaseapp.com",
@@ -306,109 +487,92 @@
         const provider = new GoogleAuthProvider();
         const appId = 'default';
 
+        let currentUser = null;
         let isPremium = false;
         let isAdmin = false;
-        let currentUser = null;
 
-        // AUTH & AUTO ADMIN CHECK
         onAuthStateChanged(auth, async (user) => {
+            const loginPage = document.getElementById('login-page');
+            const mainApp = document.getElementById('main-app');
+            const statusBadge = document.getElementById('user-status-badge');
+            
             if (user) {
+                // Show Main App, Hide Login
+                loginPage.classList.add('hidden');
+                mainApp.classList.remove('hidden');
+                
                 currentUser = user;
-                document.getElementById('login-page').classList.add('hidden');
-                document.getElementById('main-app').classList.remove('hidden');
                 document.getElementById('user-display-name').innerText = user.displayName;
+                logActivity(user.email, 'Login', 'Berjaya log masuk');
 
+                // Check Whitelist
                 try {
                     const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', user.email);
                     const docSnap = await getDoc(docRef);
 
                     if (docSnap.exists()) {
                         const data = docSnap.data();
-                        isAdmin = (data.role === 'admin');
-                        isPremium = true;
-                        
-                        // Check expiry
                         if (data.expiryDate) {
-                            if (new Date(data.expiryDate) < new Date()) { isPremium = false; isAdmin = false; }
+                            const now = new Date();
+                            const expiry = new Date(data.expiryDate);
+                            expiry.setHours(23, 59, 59, 999);
+                            if (expiry < now) { isPremium = false; isAdmin = false; statusBadge.innerHTML = `<span class="text-red-500">Tamat</span>`; } 
+                            else { isPremium = true; isAdmin = (data.role === 'admin'); statusBadge.innerHTML = `<span class="text-emerald-600">Premium</span>`; }
+                        } else {
+                            isPremium = true; isAdmin = (data.role === 'admin'); statusBadge.innerHTML = `<span class="text-emerald-600">Premium</span>`;
                         }
                     } else {
-                        // AUTO ADMIN CHECK: Jika database kosong, user pertama jadi admin
+                        // AUTO ADMIN CHECK
                         const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
                         if (wlSnap.empty) {
-                            if (confirm("Database kosong. Adakah anda Admin?")) {
-                                await setDoc(docRef, { email: user.email, role: 'admin', expiryDate: null, createdAt: serverTimestamp() });
-                                isPremium = true; isAdmin = true;
-                                alert("Tahniah! Anda kini Super Admin.");
-                            }
+                             if(confirm("Jadikan anda Admin?")) {
+                                 await setDoc(docRef, { email: user.email, role: 'admin', expiryDate: null, createdAt: serverTimestamp() });
+                                 isPremium=true; isAdmin=true; statusBadge.innerHTML = "Super Admin";
+                             }
+                        } else {
+                             isPremium = false; isAdmin = false; statusBadge.innerHTML = `<span class="text-slate-500">Percuma</span>`;
                         }
                     }
                 } catch (e) { console.error(e); }
 
-                // Update UI Status
-                const badge = document.getElementById('user-status-badge');
-                if (isAdmin) {
-                    badge.innerHTML = `<span class="text-purple-600 font-bold">Super Admin</span>`;
-                    document.getElementById('btn-admin').classList.remove('hidden');
-                } else if (isPremium) {
-                    badge.innerHTML = `<span class="text-emerald-600 font-bold">Premium</span>`;
-                } else {
-                    badge.innerHTML = `<span class="text-slate-500">Percuma</span>`;
-                }
-                
-                window.isPremiumStatus = () => isPremium;
-                window.generateTemplateButtons(); // Re-render buttons based on rights
+                const btnAdmin = document.getElementById('btn-admin');
+                if(isAdmin) btnAdmin.classList.remove('hidden'); else btnAdmin.classList.add('hidden');
 
             } else {
-                document.getElementById('login-page').classList.remove('hidden');
-                document.getElementById('main-app').classList.add('hidden');
+                loginPage.classList.remove('hidden'); mainApp.classList.add('hidden');
+                currentUser = null; isPremium = false; isAdmin = false;
             }
+            if(window.generateTemplateButtons) window.generateTemplateButtons();
+            lucide.createIcons();
         });
 
-        // Global Firebase Functions
-        window.loginGoogle = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
+        window.loginGoogle = () => signInWithPopup(auth, provider).catch(e => alert("Login Gagal: " + e.message));
         window.logoutApp = () => signOut(auth);
-        
-        window.toggleAdminDashboard = async () => {
-            const d = document.getElementById('admin-dashboard');
-            d.classList.toggle('hidden');
-            if(!d.classList.contains('hidden')) loadAdminData();
-        };
+        window.toggleAdminDashboard = async () => { document.getElementById('admin-dashboard').classList.toggle('hidden'); loadAdminData(); };
 
         async function loadAdminData() {
-             const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
-             document.getElementById('stat-whitelist').innerText = wlSnap.size;
-             const tb = document.getElementById('whitelist-table-body');
-             tb.innerHTML = '';
-             wlSnap.forEach(doc => {
-                 const d = doc.data();
-                 const tr = document.createElement('tr');
-                 tr.innerHTML = `<td class="p-3 border-b">${d.email} ${d.role==='admin'?'(Admin)':''}</td><td class="p-3 border-b">${d.expiryDate||'Seumur Hidup'}</td><td class="p-3 border-b text-right"><button onclick="window.delUser('${doc.id}')" class="text-red-500 font-bold">Hapus</button></td>`;
-                 tb.appendChild(tr);
-             });
+            const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general');
+            const statsSnap = await getDoc(statsRef);
+            if (statsSnap.exists()) { const s = statsSnap.data(); document.getElementById('stat-downloads').innerText = s.downloads || 0; document.getElementById('stat-prints').innerText = s.prints || 0; }
+            const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
+            document.getElementById('stat-whitelist').innerText = wlSnap.size;
+            const tbody = document.getElementById('whitelist-table-body'); tbody.innerHTML = '';
+            wlSnap.forEach(doc => { const d = doc.data(); const tr = document.createElement('tr'); tr.innerHTML = `<td class="p-3 border-b">${doc.id} ${d.role === 'admin' ? '(A)' : ''}</td><td class="p-3 border-b text-xs">${d.expiryDate || '-'}</td><td class="p-3 border-b text-right"><button onclick="window.removeFromWhitelist('${doc.id}')" class="text-red-500 font-bold">X</button></td>`; tbody.appendChild(tr); });
         }
 
         window.addToWhitelist = async () => {
-            const em = document.getElementById('new-whitelist-email').value;
-            const ex = document.getElementById('new-whitelist-expiry').value;
-            if(!em) return;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', em), { email: em, role: 'user', expiryDate: ex || null });
-            loadAdminData();
-            alert("Berjaya ditambah!");
+            const email = document.getElementById('new-whitelist-email').value.trim();
+            const expiry = document.getElementById('new-whitelist-expiry').value;
+            if (!email) return;
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', email), { email: email, role: 'user', expiryDate: expiry || null, createdAt: serverTimestamp() });
+            loadAdminData(); alert("Ditambah!");
         };
 
-        window.delUser = async (id) => {
-            if(confirm("Hapus?")) {
-                await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', id));
-                loadAdminData();
-            }
-        };
-
-        window.trackStat = async (type) => {
-            try {
-                const ref = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general');
-                await setDoc(ref, { [type]: increment(1) }, { merge: true });
-            } catch(e) {}
-        };
+        window.removeFromWhitelist = async (email) => { if(confirm("Hapus?")) { await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', email)); loadAdminData(); } };
+        window.logActivity = async (email, action, details) => { try { await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), { email, action, details, timestamp: serverTimestamp() }); } catch(e) {} };
+        window.trackStat = async (type, templateId) => { try { const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general'); await setDoc(statsRef, { [type]: increment(1), [`template_${templateId}_${type}`]: increment(1) }, { merge: true }); } catch(e) {} };
+        
+        window.isPremiumStatus = () => isPremium;
     </script>
 
 </body>
