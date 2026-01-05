@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro (Ultimate Version)</title>
+    <title>Sistem Generator OPR Pro (Profile Fix)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -40,13 +40,28 @@
             margin: 0 auto;
             position: relative;
             box-sizing: border-box;
-            overflow: hidden; 
+            overflow: hidden; /* PENTING: Potong lebihan */
             display: flex;
             flex-direction: column;
             color: #1e293b;
             background-color: #ffffff;
         }
-        .img-fit { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+        /* FIX GAMBAR: Paksa gambar ikut saiz kotak */
+        .img-container {
+            overflow: hidden;
+            position: relative;
+            background-color: #f3f4f6;
+            width: 100%;
+        }
+        
+        .img-fit { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Rahsia gambar tak herot & fit frame */
+            object-position: center; 
+            display: block;
+        }
 
         /* Animation */
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -122,13 +137,54 @@
             </div>
         </div>
 
-        <!-- SKRIN PILIHAN TEMPLAT -->
-        <div id="selection-screen" class="flex-1 flex flex-col items-center justify-center p-6 overflow-y-auto relative bg-slate-50">
+        <!-- SKRIN PILIHAN TEMPLAT (DENGAN PROFIL SETTING) -->
+        <div id="selection-screen" class="flex-1 flex flex-col items-center justify-start p-6 overflow-y-auto relative bg-slate-50">
             <div class="max-w-7xl w-full pb-10">
-                <div class="text-center mb-8 mt-4">
+                <div class="text-center mb-6 mt-4">
                     <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2">Pilih Rekabentuk</h1>
                     <p class="text-slate-500">Status: <span id="user-status-badge" class="font-bold">...</span></p>
                 </div>
+
+                <!-- RUANG PROFIL SEKOLAH (PREMIUM SAHAJA) -->
+                <div id="profile-setup-container" class="hidden bg-white max-w-4xl mx-auto rounded-xl shadow-md border border-emerald-100 p-6 mb-8 relative overflow-hidden">
+                     <div class="absolute top-0 left-0 w-1 h-full bg-emerald-500"></div>
+                     <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-lg">
+                        <i data-lucide="school" class="w-5 h-5 text-emerald-600"></i> Tetapan Profil Sekolah (Premium)
+                     </h3>
+                     <p class="text-xs text-slate-500 mb-4">Simpan maklumat sekolah anda di sini. Ia akan dimuatkan secara automatik setiap kali anda log masuk.</p>
+                     
+                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
+                         <div class="md:col-span-1 flex flex-col items-center">
+                             <div class="w-24 h-24 border-2 border-dashed border-slate-300 rounded-lg flex items-center justify-center bg-slate-50 mb-2 overflow-hidden relative group">
+                                 <img id="profile-logo-preview" src="" class="w-full h-full object-contain hidden">
+                                 <span id="profile-logo-text" class="text-xs text-slate-400 text-center px-2">Tiada Logo</span>
+                             </div>
+                             <label class="cursor-pointer bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs py-1.5 px-3 rounded font-bold transition flex items-center gap-1">
+                                 <i data-lucide="upload" class="w-3 h-3"></i> Upload
+                                 <input type="file" accept="image/*" onchange="window.handleProfileLogo(this)" class="hidden">
+                             </label>
+                         </div>
+                         <div class="md:col-span-3 grid grid-cols-1 gap-3">
+                             <div>
+                                 <label class="text-xs font-bold text-slate-500 block mb-1">Nama Sekolah</label>
+                                 <input type="text" id="profile-sekolah" class="w-full p-2 border rounded text-sm font-bold uppercase focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="SK CONTOH">
+                             </div>
+                             <div class="grid grid-cols-2 gap-3">
+                                 <div>
+                                     <label class="text-xs font-bold text-slate-500 block mb-1">Kod Sekolah</label>
+                                     <input type="text" id="profile-kod" class="w-full p-2 border rounded text-sm font-mono text-center uppercase focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="ABC1234">
+                                 </div>
+                                 <div class="flex items-end">
+                                     <button onclick="window.saveUserProfile()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow-md flex items-center justify-center gap-2 transition">
+                                         <i data-lucide="save" class="w-4 h-4"></i> Simpan Profil
+                                     </button>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                </div>
+
+                <!-- GRID TEMPLAT -->
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="template-grid"></div>
             </div>
         </div>
@@ -142,44 +198,18 @@
                     <div class="ml-auto text-xs bg-slate-200 px-2 py-1 rounded font-bold text-slate-700" id="tpl-badge">T1</div>
                 </div>
                 <div class="flex-1 overflow-y-auto p-4 space-y-5 scrollbar-thin">
-                    
-                    <!-- BAHAGIAN INFO SEKOLAH & LOGO -->
-                    <div class="space-y-2 p-3 bg-slate-50 rounded-lg border border-slate-200">
-                        <div class="flex justify-between items-center mb-2">
-                             <h3 class="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1"><i data-lucide="home" class="w-3 h-3"></i> Info Sekolah</h3>
-                             
-                             <!-- BUTTON SIMPAN PROFIL (AUTO-SAVE) -->
-                             <button id="btn-save-profile" onclick="window.saveUserProfile()" class="text-[9px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold hover:bg-emerald-200 transition hidden flex items-center gap-1">
-                                 <i data-lucide="save" class="w-3 h-3"></i> Simpan
-                             </button>
-                             <!-- LOCKED BUTTON UNTUK FREE USER -->
-                             <button id="btn-save-locked" class="text-[9px] bg-gray-100 text-gray-400 px-3 py-1 rounded-full font-bold cursor-not-allowed flex items-center gap-1">
-                                 <i data-lucide="lock" class="w-3 h-3"></i> Simpan
-                             </button>
-                        </div>
-                        
+                    <!-- Info Sekolah (Di Editor juga ada, auto-fill) -->
+                    <div class="space-y-2">
+                        <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="home" class="w-3 h-3"></i> Info Sekolah</h3>
                         <div class="grid grid-cols-3 gap-2">
-                            <div class="col-span-2">
-                                <label class="text-[9px] font-semibold text-slate-400">Nama Sekolah</label>
-                                <input type="text" id="sekolah" oninput="window.updateData()" placeholder="Nama Sekolah" class="w-full px-2 py-1.5 border rounded text-xs font-bold focus:border-blue-500">
-                            </div>
-                            <div class="col-span-1">
-                                <label class="text-[9px] font-semibold text-slate-400">Kod</label>
-                                <input type="text" id="kodSekolah" oninput="window.updateData()" placeholder="Kod" class="w-full px-2 py-1.5 border rounded text-xs font-bold text-center">
-                            </div>
+                            <div class="col-span-2"><input type="text" id="sekolah" oninput="window.updateData()" placeholder="Nama Sekolah" class="w-full px-3 py-2 border rounded text-xs font-bold focus:border-blue-500"></div>
+                            <div class="col-span-1"><input type="text" id="kodSekolah" oninput="window.updateData()" placeholder="Kod" class="w-full px-3 py-2 border rounded text-xs font-bold text-center"></div>
                         </div>
-                        <div class="mt-2">
-                            <label class="text-[9px] font-semibold text-slate-400 mb-1 block">Logo Sekolah</label>
-                            <div class="flex items-center gap-2">
-                                <label class="flex-1 cursor-pointer bg-white border border-dashed border-slate-300 hover:border-blue-400 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2 transition">
-                                    <i data-lucide="image-plus" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Upload Logo</span>
-                                    <input type="file" accept="image/*" onchange="window.handleLogo(this)" class="hidden">
-                                </label>
-                                <button onclick="window.removeLogo()" class="hidden p-1.5 text-red-500 hover:bg-red-50 rounded border"><i data-lucide="trash" class="w-3 h-3"></i></button>
-                            </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <label class="flex-1 cursor-pointer bg-slate-50 border border-dashed border-slate-300 hover:bg-slate-100 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2"><i data-lucide="image-plus" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Logo</span><input type="file" accept="image/*" onchange="window.handleLogo(this)" class="hidden"></label>
+                            <button onclick="window.removeLogo()" class="hidden p-1.5 text-red-500 hover:bg-red-50 rounded border"><i data-lucide="trash" class="w-3 h-3"></i></button>
                         </div>
                     </div>
-
                     <hr class="border-slate-100">
                     <div class="space-y-2"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> Butiran Program</h3><input type="text" id="program" oninput="window.updateData()" placeholder="Nama Program" class="w-full px-3 py-2 border rounded text-xs font-bold bg-yellow-50"><div class="grid grid-cols-2 gap-2"><input type="text" id="tarikh" oninput="window.updateData()" placeholder="Tarikh" class="w-full px-3 py-2 border rounded text-xs"><input type="text" id="tempat" oninput="window.updateData()" placeholder="Tempat" class="w-full px-3 py-2 border rounded text-xs"></div><input type="text" id="anjuran" oninput="window.updateData()" placeholder="Anjuran" class="w-full px-3 py-2 border rounded text-xs"></div>
                     <hr class="border-slate-100">
@@ -206,6 +236,7 @@
         </div>
     </div>
 
+    <!-- MODAL CADANGAN -->
     <div id="suggestion-modal" class="fixed inset-0 z-[99999] bg-black/60 hidden flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="bg-white w-full max-w-lg rounded-xl shadow-2xl overflow-hidden animate-bounce-in">
             <div class="p-4 border-b flex justify-between items-center bg-slate-50"><h3 class="font-bold text-slate-800 flex items-center gap-2"><i data-lucide="list-plus" class="w-5 h-5 text-blue-600"></i> Pilih Ayat Cadangan</h3><button onclick="window.closeSuggestions()" class="text-slate-400 hover:text-slate-600"><i data-lucide="x" class="w-5 h-5"></i></button></div>
@@ -214,6 +245,7 @@
     </div>
 
     <script>
+        // CORE JS
         let currentTemplate = 1, images = [], logo = null, currentField = ''; 
         let data = { sekolah: "SK MASJID TANAH", kodSekolah: "MBA0001", program: "PROGRAM MINGGU BAHASA MELAYU", tarikh: "20 MEI 2024", tempat: "DEWAN GEMILANG", anjuran: "PANITIA BAHASA MELAYU", objektif: "1. Mencungkil bakat murid.\n2. Memartabatkan Bahasa Melayu.", aktiviti: "1. Perasmian oleh Guru Besar.\n2. Pertandingan bercerita.\n3. Pertandingan pidato.\n4. Penyampaian hadiah.", impak: "Murid menunjukkan minat yang mendalam.", sediaNama: "CIKGU AMIRUL", sediaJawatan: "Setiausaha Program", sahNama: "PN HJH ZAINAB", sahJawatan: "Guru Besar" };
         
@@ -242,8 +274,23 @@
         window.updateData = function() { Object.keys(data).forEach(id => { const el = document.getElementById(id); if(el) data[id] = el.value.toUpperCase(); }); renderPreview(); };
         window.selectTemplate = function(id) { currentTemplate = id; document.getElementById('selection-screen').classList.add('hidden'); document.getElementById('editor-screen').classList.remove('hidden'); document.getElementById('tpl-badge').innerText = `T${id}`; window.loadInputs(); renderPreview(); };
         window.showSelection = function() { document.getElementById('selection-screen').classList.remove('hidden'); document.getElementById('editor-screen').classList.add('hidden'); if(window.generateTemplateButtons) window.generateTemplateButtons(); };
+        
+        // Logo Handlers (Updated for Profile)
         window.handleLogo = function(input) { if (input.files[0]) { const r = new FileReader(); r.onload = (e) => { logo = e.target.result; renderPreview(); }; r.readAsDataURL(input.files[0]); } };
+        window.handleProfileLogo = function(input) { 
+            if (input.files[0]) { 
+                const r = new FileReader(); 
+                r.onload = (e) => { 
+                    logo = e.target.result; // Update global logo
+                    document.getElementById('profile-logo-preview').src = logo;
+                    document.getElementById('profile-logo-preview').classList.remove('hidden');
+                    document.getElementById('profile-logo-text').classList.add('hidden');
+                }; 
+                r.readAsDataURL(input.files[0]); 
+            } 
+        };
         window.removeLogo = function() { logo = null; renderPreview(); };
+
         window.handleImages = function(input) { const f = Array.from(input.files); if(images.length + f.length > 6) { alert("Max 6"); return; } f.forEach(fl => { const r = new FileReader(); r.onload = e => { images.push(e.target.result); updateThumb(); renderPreview(); }; r.readAsDataURL(fl); }); input.value = ''; };
         window.clearImages = function() { images = []; updateThumb(); renderPreview(); };
         window.removeImage = function(i) { images.splice(i, 1); updateThumb(); renderPreview(); };
@@ -256,6 +303,11 @@
             grid.innerHTML = '';
             const isPremiumUser = window.isPremiumStatus ? window.isPremiumStatus() : false;
             
+            // Show/Hide Profile Setup
+            const profileSetup = document.getElementById('profile-setup-container');
+            if(isPremiumUser) profileSetup.classList.remove('hidden');
+            else profileSetup.classList.add('hidden');
+
             templates.forEach(t => {
                 const isLocked = !t.free && !isPremiumUser;
                 const btn = document.createElement('button');
@@ -305,7 +357,8 @@
             const imgs = (cls,h) => { let htm = `<div class="${cls}">`; if(images.length==0) return `<div class="w-full h-44 border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400 text-xs italic rounded">Sila muat naik 6 gambar</div>`; images.forEach((s,i)=> htm+=`<div class="${h} bg-gray-100 overflow-hidden relative border border-gray-200 shadow-sm print:shadow-none"><img src="${s}" class="img-fit"><div class="absolute bottom-1 right-1 bg-white/80 text-[10px] px-1 rounded shadow-sm opacity-50">#${i+1}</div></div>`); for(let i=images.length;i<6;i++) htm+=`<div class="${h} bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-300 text-[10px]">Foto ${i+1}</div>`; return htm+'</div>'; };
             let html = '';
             
-            if(currentTemplate===1) html=`<div class="h-full w-full p-8 flex flex-col relative bg-white"><div class="absolute inset-0 pattern-dots opacity-30 pointer-events-none"></div><div class="relative z-10 flex flex-col h-full border-2 border-double border-slate-300 p-6 bg-white/95"><div class="flex items-center border-b-2 border-blue-900 pb-2 mb-2"><div class="w-12 h-12 mr-4 border border-gray-200 p-1">${lg}</div><div class="flex-grow text-center"><h1 class="text-xl font-black uppercase text-blue-900 leading-tight">${sekolah}</h1><p class="text-xs text-slate-500 font-bold tracking-widest">${kodSekolah}</p></div><div class="w-12 text-right text-xs font-bold">${tarikh}</div></div><div class="text-center mb-2"><span class="bg-blue-900 text-white px-3 py-0.5 text-[9px] font-bold rounded-full uppercase">Laporan Program</span><h2 class="text-lg font-bold uppercase mt-1 text-slate-900 underline decoration-blue-300 decoration-4">${program}</h2></div><div class="bg-blue-50 border border-blue-100 p-1.5 mb-3 rounded text-[9px] grid grid-cols-2 gap-4 font-bold"><div class="flex"><span class="w-16 text-blue-900">TEMPAT</span>: ${tempat}</div><div class="flex"><span class="w-16 text-blue-900">ANJURAN</span>: ${anjuran}</div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="space-y-1 text-xs flex-grow text-justify leading-tight"><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">OBJEKTIF</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(objektif)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">LAPORAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(aktiviti)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">IMPAK</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(impak)}</div></div></div><div class="mt-auto pt-2 flex justify-between text-xs border-t border-slate-300"><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disediakan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sediaNama}</p><p class="mt-0.5">${sediaJawatan}</p></div><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disahkan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sahNama}</p><p class="mt-0.5">${sahJawatan}</p></div></div></div></div>`;
+            // --- 16 TEMPLATES RESTORED ---
+            if (currentTemplate === 1) html = `<div class="h-full w-full p-8 flex flex-col relative bg-white"><div class="absolute inset-0 pattern-dots opacity-30 pointer-events-none"></div><div class="relative z-10 flex flex-col h-full border-2 border-double border-slate-300 p-6 bg-white/95"><div class="flex items-center border-b-2 border-blue-900 pb-2 mb-2"><div class="w-12 h-12 mr-4 border border-gray-200 p-1">${lg}</div><div class="flex-grow text-center"><h1 class="text-xl font-black uppercase text-blue-900 leading-tight">${sekolah}</h1><p class="text-xs text-slate-500 font-bold tracking-widest">${kodSekolah}</p></div><div class="w-12 text-right text-xs font-bold">${tarikh}</div></div><div class="text-center mb-2"><span class="bg-blue-900 text-white px-3 py-0.5 text-[9px] font-bold rounded-full uppercase">Laporan Program</span><h2 class="text-lg font-bold uppercase mt-1 text-slate-900 underline decoration-blue-300 decoration-4">${program}</h2></div><div class="bg-blue-50 border border-blue-100 p-1.5 mb-3 rounded text-[9px] grid grid-cols-2 gap-4 font-bold"><div class="flex"><span class="w-16 text-blue-900">TEMPAT</span>: ${tempat}</div><div class="flex"><span class="w-16 text-blue-900">ANJURAN</span>: ${anjuran}</div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="space-y-1 text-xs flex-grow text-justify leading-tight"><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">OBJEKTIF</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(objektif)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">LAPORAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(aktiviti)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">IMPAK</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(impak)}</div></div></div><div class="mt-auto pt-2 flex justify-between text-xs border-t border-slate-300"><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disediakan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sediaNama}</p><p class="mt-0.5">${sediaJawatan}</p></div><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disahkan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sahNama}</p><p class="mt-0.5">${sahJawatan}</p></div></div></div></div>`;
             else if(currentTemplate===2) html=`<div class="h-full w-full flex bg-white"><div class="w-4 bg-emerald-600 h-full pattern-lines opacity-20"></div><div class="flex-1 p-8 flex flex-col"><div class="flex items-center gap-4 mb-3 border-b border-dashed border-emerald-200 pb-2"><div class="w-14 h-14 bg-gray-50 rounded-lg border p-1">${lg}</div><div><h1 class="text-xl font-bold text-emerald-900 leading-none">${sekolah}</h1><div class="flex gap-3 text-xs text-emerald-700 font-bold"><span>${kodSekolah}</span><span>•</span><span>${tarikh}</span></div></div></div><div class="mb-3"><h2 class="text-xl font-bold text-emerald-900 uppercase">${program}</h2><div class="flex gap-3 text-xs font-bold mt-1"><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">📍 ${tempat}</span><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">🤝 ${anjuran}</span></div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-3', 'h-44 rounded-lg')}</div><div class="grid grid-cols-1 gap-2 text-xs flex-grow leading-tight"><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Objektif</h4><p>${fmt(objektif)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Aktiviti</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Impak</h4><p>${fmt(impak)}</p></div></div><div class="mt-auto pt-2 border-t-2 border-emerald-600 flex justify-between text-xs"><div><span class="text-slate-500 block mb-2 font-bold">DISEDIAKAN:</span><span class="font-bold uppercase">${sediaNama}</span></div><div class="text-right"><span class="text-slate-500 block mb-2 font-bold">DISAHKAN:</span><span class="font-bold uppercase">${sahNama}</span></div></div></div></div>`;
             else if(currentTemplate===3) html=`<div class="h-full w-full flex"><div class="w-[28%] bg-slate-900 text-white p-5 flex flex-col"><div class="w-16 h-16 bg-white p-1 rounded-full mb-4 self-center">${lg}</div><h1 class="text-xs font-bold text-center uppercase text-violet-300">${sekolah}</h1><p class="text-[10px] text-center text-slate-400 mb-6 font-mono">${kodSekolah}</p><div class="bg-slate-800 rounded p-3 mb-4 text-xs space-y-3 border border-slate-700"><div><span class="block text-slate-400 font-bold">TARIKH</span>${tarikh}</div><div><span class="block text-slate-400 font-bold">TEMPAT</span>${tempat}</div><div><span class="block text-slate-400 font-bold">ANJURAN</span>${anjuran}</div></div><div class="flex-grow space-y-4 text-xs text-slate-200 text-justify"><div><strong class="text-violet-400 block mb-1">OBJEKTIF</strong>${fmt(objektif)}</div><div><strong class="text-violet-400 block mb-1">IMPAK</strong>${fmt(impak)}</div></div><div class="mt-auto pt-4 border-t border-slate-700 text-center"><p class="text-[9px] text-slate-400 mb-2 font-bold">PENGESAHAN</p><p class="text-xs font-bold uppercase text-white">${sahNama}</p></div></div><div class="w-[72%] bg-white p-6 flex flex-col"><div class="border-b-4 border-violet-500 pb-2 mb-4"><h2 class="text-2xl font-bold uppercase text-slate-900 leading-tight">${program}</h2></div><div class="flex-grow mb-4">${imgs('grid grid-cols-2 gap-3 h-full', 'h-auto rounded')}</div><div class="bg-violet-50 p-3 border-l-4 border-violet-500 text-xs text-justify text-slate-800"><strong class="text-violet-900 block mb-1 text-sm">RINGKASAN AKTIVITI:</strong>${fmt(aktiviti)}</div><div class="mt-3 text-right text-xs text-slate-500">Disediakan: <span class="font-bold text-slate-800 uppercase">${sediaNama}</span></div></div></div>`;
             else if(currentTemplate===4) html=`<div class="h-full w-full p-8 flex flex-col bg-white"><div class="h-2 w-full bg-red-700 mb-4"></div><div class="flex gap-4 mb-4 border-b border-gray-200 pb-3"><div class="w-14 h-14 border p-0.5">${lg}</div><div class="flex-1"><h1 class="text-base font-bold text-slate-900 uppercase">${sekolah}</h1><h2 class="text-xl font-bold text-red-700 uppercase mt-1">${program}</h2></div></div><div class="mb-4">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="grid grid-cols-2 gap-4 flex-grow text-xs text-justify"><div class="space-y-3"><div><h3 class="font-bold text-red-700 border-b border-red-200">OBJEKTIF</h3><p class="bg-red-50 p-2">${fmt(objektif)}</p></div><div><h3 class="font-bold text-red-700 border-b border-red-200">IMPAK</h3><p class="bg-red-50 p-2">${fmt(impak)}</p></div></div><div class="flex flex-col"><h3 class="font-bold text-red-700 border-b border-red-200">AKTIVITI</h3><p class="bg-slate-50 p-2 flex-grow mb-2">${fmt(aktiviti)}</p><div class="mt-auto grid grid-cols-2 gap-2 border-t pt-2 text-xs"><div><span class="text-slate-500 font-bold">DISEDIAKAN:</span><strong class="uppercase block">${sediaNama}</strong></div><div><span class="text-slate-500 font-bold">DISAHKAN:</span><strong class="uppercase block">${sahNama}</strong></div></div></div></div></div>`;
@@ -364,9 +417,9 @@
                             const userSnap = await getDoc(userRef);
                             if(userSnap.exists()) {
                                 const p = userSnap.data();
-                                if(p.sekolah) document.getElementById('sekolah').value = p.sekolah;
-                                if(p.kodSekolah) document.getElementById('kodSekolah').value = p.kodSekolah;
-                                if(p.logo) logo = p.logo;
+                                if(p.sekolah) { document.getElementById('sekolah').value = p.sekolah; data.sekolah = p.sekolah; }
+                                if(p.kodSekolah) { document.getElementById('kodSekolah').value = p.kodSekolah; data.kodSekolah = p.kodSekolah; }
+                                if(p.logo) { logo = p.logo; document.getElementById('logo-label').innerText = "Logo Loaded"; }
                                 window.updateData();
                             }
                             document.getElementById('btn-save-profile').classList.remove('hidden');
