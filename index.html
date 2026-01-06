@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro (Direct Link Support)</title>
+    <title>Sistem Generator OPR Pro (User Fixes)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -204,20 +204,14 @@
                         </div>
                         
                         <div class="mt-2 pt-2 border-t border-slate-200">
-                            <label class="text-[9px] font-bold text-slate-400 block mb-1">Logo (Link Drive / Upload)</label>
-                            
-                            <!-- Input Link G-Drive Editor -->
-                            <div class="flex gap-1 mb-2">
-                                <input type="text" id="editor-logo-url" placeholder="Direct URL / Drive Link" class="w-full px-2 py-1 border rounded text-[10px]">
-                                <button onclick="window.handleImageLink(document.getElementById('editor-logo-url').value, 'editor')" class="bg-blue-600 text-white px-2 rounded text-[10px] font-bold hover:bg-blue-700">OK</button>
-                            </div>
-
+                            <label class="text-[9px] font-bold text-slate-400 block mb-1">Logo Sekolah</label>
+                            <!-- HANYA UPLOAD FILE UNTUK USER BIASA/SIDEBAR -->
                             <div class="flex items-center gap-2">
                                 <label class="flex-1 cursor-pointer bg-white border border-dashed border-slate-300 hover:border-blue-400 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2 transition">
                                     <i data-lucide="upload" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Upload File</span>
                                     <input type="file" accept="image/*" onchange="window.handleLogo(this)" class="hidden">
                                 </label>
-                                <button onclick="window.removeLogo()" class="hidden p-1.5 text-red-500 hover:bg-red-50 rounded border"><i data-lucide="trash" class="w-3 h-3"></i></button>
+                                <button onclick="window.removeLogo()" class="hidden p-1.5 text-red-500 hover:bg-red-50 rounded border flex items-center justify-center"><i data-lucide="trash" class="w-3 h-3"></i></button>
                             </div>
                         </div>
                     </div>
@@ -287,7 +281,19 @@
         
         // LOGO HANDLERS
         window.handleLogo = function(input) { 
-            if (input.files[0]) { const r = new FileReader(); r.onload = (e) => { logo = e.target.result; renderPreview(); }; r.readAsDataURL(input.files[0]); } 
+            if (input.files[0]) { 
+                const r = new FileReader(); 
+                r.onload = (e) => { 
+                    logo = e.target.result; 
+                    // Update UI Label
+                    const lbl = document.getElementById('logo-label');
+                    if(lbl) lbl.innerText = "Logo OK";
+                    const btnDel = input.parentElement.nextElementSibling;
+                    if(btnDel) btnDel.classList.remove('hidden');
+                    renderPreview(); 
+                }; 
+                r.readAsDataURL(input.files[0]); 
+            } 
         };
         
         window.handleProfileLogo = function(input) { 
@@ -337,7 +343,17 @@
         // Compatible alias for the profile button
         window.handleDriveLink = window.handleImageLink; 
 
-        window.removeLogo = function() { logo = null; renderPreview(); };
+        window.removeLogo = function() { 
+            logo = null; 
+            document.getElementById('logo-label').innerText = "Upload File";
+            const btnDel = document.querySelector('#sidebar .hidden.p-1.5'); // Rough selector, ensuring safety
+            // Better selector:
+             const btns = document.querySelectorAll('button[onclick="window.removeLogo()"]');
+             btns.forEach(b => b.classList.add('hidden'));
+
+            renderPreview(); 
+        };
+
         window.handleImages = function(input) { const f = Array.from(input.files); if(images.length + f.length > 6) { alert("Max 6"); return; } f.forEach(fl => { const r = new FileReader(); r.onload = e => { images.push(e.target.result); updateThumb(); renderPreview(); }; r.readAsDataURL(fl); }); input.value = ''; };
         window.clearImages = function() { images = []; updateThumb(); renderPreview(); };
         window.removeImage = function(i) { images.splice(i, 1); updateThumb(); renderPreview(); };
