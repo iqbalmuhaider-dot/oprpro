@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro (Logo Besar)</title>
+    <title>Sistem Generator OPR Pro </title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -13,7 +13,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
     
     <style>
         /* WRAPPER UTAMA */
@@ -29,6 +29,7 @@
             color: #334155;
         }
         .font-serif { font-family: 'Playfair Display', serif; }
+        .font-mono-serif { font-family: 'Merriweather', serif; }
         .pattern-dots { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
         
         /* A4 Styles */
@@ -108,7 +109,11 @@
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Whitelist</div><div class="text-3xl font-bold text-blue-600 mt-1" id="stat-whitelist">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Download</div><div class="text-3xl font-bold text-red-600 mt-1" id="stat-downloads">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Cetak</div><div class="text-3xl font-bold text-green-600 mt-1" id="stat-prints">0</div></div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Top Template</div><div class="text-xl font-bold text-purple-600 mt-1 truncate" id="stat-popular">-</div></div>
                     </div>
+                    
+                    <div class="text-right"><button onclick="window.resetSystem()" class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 inline-flex"><i data-lucide="trash-2" class="w-4 h-4"></i> Reset Statistik</button></div>
+
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4"></i> Pengurusan Whitelist</h3>
                         <div class="flex gap-2 mb-4 flex-col sm:flex-row">
@@ -117,6 +122,11 @@
                             <button onclick="window.addToWhitelist()" class="bg-blue-600 text-white px-4 py-2 rounded text-sm font-bold hover:bg-blue-700">Tambah</button>
                         </div>
                         <div class="overflow-y-auto max-h-60 border rounded"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b sticky top-0"><tr><th class="p-3">Email</th><th class="p-3">Tamat</th><th class="p-3 text-right">Tindakan</th></tr></thead><tbody id="whitelist-table-body" class="divide-y"></tbody></table></div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Log Aktiviti</h3>
+                        <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">Masa</th><th class="p-3">Email</th><th class="p-3">Aktiviti</th><th class="p-3">Butiran</th></tr></thead><tbody id="logs-table-body" class="divide-y text-slate-700"></tbody></table></div>
                     </div>
                 </div>
             </div>
@@ -197,15 +207,12 @@
                              <button id="btn-save-profile" onclick="window.saveUserProfile()" class="text-[9px] bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full font-bold hover:bg-emerald-200 transition hidden flex items-center gap-1"><i data-lucide="save" class="w-3 h-3"></i> Simpan</button>
                              <button id="btn-save-locked" class="text-[9px] bg-gray-100 text-gray-400 px-3 py-1 rounded-full font-bold cursor-not-allowed flex items-center gap-1"><i data-lucide="lock" class="w-3 h-3"></i> Simpan</button>
                         </div>
-                        
                         <div class="grid grid-cols-3 gap-2">
                             <div class="col-span-2"><input type="text" id="sekolah" oninput="window.updateData()" placeholder="Nama Sekolah" class="w-full px-2 py-1.5 border rounded text-xs font-bold focus:border-blue-500"></div>
                             <div class="col-span-1"><input type="text" id="kodSekolah" oninput="window.updateData()" placeholder="Kod" class="w-full px-2 py-1.5 border rounded text-xs font-bold text-center"></div>
                         </div>
-                        
                         <div class="mt-2 pt-2 border-t border-slate-200">
                             <label class="text-[9px] font-bold text-slate-400 block mb-1">Logo Sekolah</label>
-                            <!-- HANYA UPLOAD FILE UNTUK USER BIASA/SIDEBAR -->
                             <div class="flex items-center gap-2">
                                 <label class="flex-1 cursor-pointer bg-white border border-dashed border-slate-300 hover:border-blue-400 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2 transition">
                                     <i data-lucide="upload" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Upload File</span>
@@ -215,7 +222,6 @@
                             </div>
                         </div>
                     </div>
-
                     <hr class="border-slate-100">
                     <div class="space-y-2"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> Butiran Program</h3><input type="text" id="program" oninput="window.updateData()" placeholder="Nama Program" class="w-full px-3 py-2 border rounded text-xs font-bold bg-yellow-50"><div class="grid grid-cols-2 gap-2"><input type="text" id="tarikh" oninput="window.updateData()" placeholder="Tarikh" class="w-full px-3 py-2 border rounded text-xs"><input type="text" id="tempat" oninput="window.updateData()" placeholder="Tempat" class="w-full px-3 py-2 border rounded text-xs"></div><input type="text" id="anjuran" oninput="window.updateData()" placeholder="Anjuran" class="w-full px-3 py-2 border rounded text-xs"></div>
                     <hr class="border-slate-100">
@@ -223,42 +229,10 @@
                     <hr class="border-slate-100">
                     <div class="space-y-4">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Laporan</h3>
-                        
-                        <!-- OBJEKTIF -->
-                        <div>
-                            <div class="flex justify-between items-end mb-1">
-                                <label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label>
-                                <button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
-                            </div>
-                            <textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
-                        </div>
-                        
-                        <!-- RINGKASAN AKTIVITI -->
-                        <div>
-                            <div class="flex justify-between items-end mb-1">
-                                <label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label>
-                                <button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
-                            </div>
-                            <textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
-                        </div>
-
-                        <!-- KEKUATAN PROGRAM (NEW) -->
-                        <div>
-                            <div class="flex justify-between items-end mb-1">
-                                <label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label>
-                                <button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
-                            </div>
-                            <textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
-                        </div>
-
-                        <!-- KELEMAHAN PROGRAM (NEW) -->
-                        <div>
-                            <div class="flex justify-between items-end mb-1">
-                                <label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label>
-                                <button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
-                            </div>
-                            <textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
-                        </div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label><button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label><button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
                     </div>
                     <hr class="border-slate-100">
                     <div class="space-y-2 pb-6"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tandatangan</h3><div class="grid grid-cols-2 gap-3"><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disediakan:</label><input type="text" id="sediaNama" oninput="window.updateData()" placeholder="Nama Guru" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sediaJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disahkan:</label><input type="text" id="sahNama" oninput="window.updateData()" placeholder="Nama Pentadbir" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sahJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div></div></div>
@@ -284,7 +258,6 @@
 
     <script>
         let currentTemplate = 1, images = [], logo = null, currentField = ''; 
-        // Updated data structure
         let data = { sekolah: "SK MASJID TANAH", kodSekolah: "MBA0001", program: "PROGRAM MINGGU BAHASA MELAYU", tarikh: "20 MEI 2024", tempat: "DEWAN GEMILANG", anjuran: "PANITIA BAHASA MELAYU", objektif: "1. Mencungkil bakat murid.\n2. Memartabatkan Bahasa Melayu.", aktiviti: "1. Perasmian oleh Guru Besar.\n2. Pertandingan bercerita.\n3. Pertandingan pidato.\n4. Penyampaian hadiah.", kekuatan: "Kerjasama guru sangat baik.", kelemahan: "Masa agak terhad.", sediaNama: "CIKGU AMIRUL", sediaJawatan: "Setiausaha Program", sahNama: "PN HJH ZAINAB", sahJawatan: "Guru Besar" };
         
         const templates = [
@@ -306,52 +279,11 @@
             { id: 16, name: "Laporan Rasmi 2", color: "zinc", desc: "Variasi KPM", free: false }
         ];
 
-        // UPDATED SUGGESTIONS
         const suggestions = {
-            objektif: [
-                "Melahirkan murid yang seimbang dari segi jasmani, emosi, rohani dan intelek (JERI).",
-                "Mengeratkan silaturrahim antara guru, murid dan ibu bapa.",
-                "Memupuk semangat kerjasama dan toleransi dalam kalangan murid.",
-                "Meningkatkan pencapaian akademik murid dalam mata pelajaran teras.",
-                "Membudayakan amalan membaca (NILAM) dalam kalangan warga sekolah.",
-                "Memberi pendedahan teknik menjawab soalan peperiksaan dengan betul.",
-                "Meningkatkan peratus kehadiran murid ke sekolah setiap hari.",
-                "Membentuk sahsiah dan disiplin terpuji dalam diri murid.",
-                "Mencungkil bakat terpendam murid dalam bidang sukan dan permainan."
-            ],
-            aktiviti: [
-                "Pendaftaran kehadiran peserta dan guru.",
-                "Nyanyian Lagu Negaraku, Lagu Negeri dan Lagu Sekolah.",
-                "Ucapan alu-aluan oleh Pengerusi Majlis.",
-                "Ucapan perasmian oleh Guru Besar / Pengetua.",
-                "Gimik pelancaran program.",
-                "Bengkel Teknik Menjawab Soalan.",
-                "Pertandingan Bercerita dan Pidato.",
-                "Gotong-royong membersihkan kawasan sekolah.",
-                "Latihan kebakaran (Fire Drill).",
-                "Sukaneka dan acara balapan.",
-                "Penyampaian hadiah dan cenderahati.",
-                "Jamuan ringan dan bersurai."
-            ],
-            kekuatan: [
-                "Kerjasama yang sangat padu daripada semua guru dan staf.",
-                "Murid menunjukkan minat dan komitmen yang tinggi.",
-                "Kehadiran murid sangat menggalakkan.",
-                "Disiplin murid terkawal sepanjang majlis berlangsung.",
-                "Peralatan dan kemudahan yang mencukupi.",
-                "Sokongan padu daripada pihak PIBG dan ibu bapa.",
-                "Cuaca yang baik melancarkan perjalanan program.",
-                "Pengurusan masa yang efisien oleh penganjur."
-            ],
-            kelemahan: [
-                "Kekangan masa menyebabkan beberapa aktiviti dipendekkan.",
-                "Masalah teknikal pada sistem siar raya (PA System).",
-                "Ruang tempat yang agak terhad untuk jumlah peserta yang ramai.",
-                "Gangguan cuaca (hujan/panas terik) menjejaskan aktiviti luar.",
-                "Sebilangan kecil murid kurang memberi tumpuan semasa ceramah.",
-                "Bajet kewangan yang agak terhad.",
-                "Kurang penyertaan daripada murid tahap 1."
-            ]
+            objektif: ["Melahirkan murid yang seimbang dari segi jasmani, emosi, rohani dan intelek (JERI).", "Mengeratkan silaturrahim antara guru, murid dan ibu bapa.", "Memupuk semangat kerjasama dan toleransi dalam kalangan murid.", "Meningkatkan pencapaian akademik murid dalam mata pelajaran teras."],
+            aktiviti: ["Pendaftaran kehadiran peserta dan guru.", "Nyanyian Lagu Negaraku, Lagu Negeri dan Lagu Sekolah.", "Ucapan alu-aluan oleh Pengerusi Majlis.", "Ucapan perasmian oleh Guru Besar / Pengetua.", "Gimik pelancaran program.", "Sesi bergambar kenang-kenangan."],
+            kekuatan: ["Kerjasama yang sangat padu daripada semua guru dan staf.", "Murid menunjukkan minat dan komitmen yang tinggi.", "Kehadiran murid sangat menggalakkan.", "Disiplin murid terkawal sepanjang majlis berlangsung.", "Peralatan dan kemudahan yang mencukupi."],
+            kelemahan: ["Kekangan masa menyebabkan beberapa aktiviti dipendekkan.", "Masalah teknikal pada sistem siar raya (PA System).", "Ruang tempat yang agak terhad untuk jumlah peserta yang ramai.", "Gangguan cuaca (hujan/panas terik) menjejaskan aktiviti luar."]
         };
 
         window.loadInputs = function() { for (const [k, v] of Object.entries(data)) { const el = document.getElementById(k); if (el) el.value = v; } };
@@ -359,13 +291,11 @@
         window.selectTemplate = function(id) { currentTemplate = id; document.getElementById('selection-screen').classList.add('hidden'); document.getElementById('editor-screen').classList.remove('hidden'); document.getElementById('tpl-badge').innerText = `T${id}`; window.loadInputs(); renderPreview(); };
         window.showSelection = function() { document.getElementById('selection-screen').classList.remove('hidden'); document.getElementById('editor-screen').classList.add('hidden'); if(window.generateTemplateButtons) window.generateTemplateButtons(); };
         
-        // LOGO HANDLERS
         window.handleLogo = function(input) { 
             if (input.files[0]) { 
                 const r = new FileReader(); 
                 r.onload = (e) => { 
                     logo = e.target.result; 
-                    // Update UI Label to "Logo OK" and show trash
                     const lbl = document.getElementById('logo-label');
                     if(lbl) lbl.innerText = "Logo OK";
                     const btnDel = input.parentElement.nextElementSibling;
@@ -389,38 +319,28 @@
             } 
         };
 
-        // UNIVERSAL LINK HANDLER (Drive & Direct)
-        window.handleImageLink = function(url, source) {
+        window.handleDriveLink = function(url, source) {
              if (!url) return;
-             let finalUrl = url;
-             
-             // Check Google Drive
              const idMatch = url.match(/(?:\/d\/|id=)([\w-]+)/);
              if (idMatch && idMatch[1]) {
-                 finalUrl = `https://drive.google.com/uc?export=view&id=${idMatch[1]}`;
-             }
-
-             const img = new Image();
-             img.onload = function() {
-                 logo = finalUrl;
-                 if(source === 'profile') {
-                     const prev = document.getElementById('profile-logo-preview');
-                     if(prev) {
-                        prev.src = finalUrl;
-                        prev.classList.remove('hidden');
-                        document.getElementById('profile-logo-text').classList.add('hidden');
+                 const fileId = idMatch[1];
+                 const directLink = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                 const img = new Image();
+                 img.onload = function() {
+                     logo = directLink;
+                     if(source === 'profile') {
+                         const prev = document.getElementById('profile-logo-preview');
+                         if(prev) { prev.src = directLink; prev.classList.remove('hidden'); document.getElementById('profile-logo-text').classList.add('hidden'); }
+                         alert("Logo Drive Berjaya!");
+                     } else {
+                         renderPreview();
+                         alert("Logo Drive Berjaya!");
                      }
-                     alert("Logo Berjaya Disimpan!");
-                 } else {
-                     renderPreview();
-                     alert("Logo Berjaya Digunakan!");
-                 }
-             };
-             img.onerror = function() { alert("Gagal memuatkan imej. Pastikan pautan boleh diakses secara umum (Public)."); };
-             img.src = finalUrl;
+                 };
+                 img.onerror = function() { alert("Gagal. Pastikan Link Drive adalah 'Anyone with the link' (Public)."); };
+                 img.src = directLink;
+             } else { alert("Link tidak sah."); }
         };
-        
-        window.handleDriveLink = window.handleImageLink; 
 
         window.removeLogo = function() { 
             logo = null; 
@@ -493,63 +413,41 @@
             const imgs = (cls,h) => { let htm = `<div class="${cls}">`; if(images.length==0) return `<div class="w-full h-44 border-2 border-dashed border-gray-300 bg-gray-50 flex items-center justify-center text-gray-400 text-xs italic rounded">Sila muat naik 6 gambar</div>`; images.forEach((s,i)=> htm+=`<div class="${h} bg-gray-100 overflow-hidden relative border border-gray-200 shadow-sm print:shadow-none"><img src="${s}" class="img-fit"><div class="absolute bottom-1 right-1 bg-white/80 text-[10px] px-1 rounded shadow-sm opacity-50">#${i+1}</div></div>`); for(let i=images.length;i<6;i++) htm+=`<div class="${h} bg-gray-50 border border-dashed border-gray-300 flex items-center justify-center text-gray-300 text-[10px]">Foto ${i+1}</div>`; return htm+'</div>'; };
             let html = '';
             
-            // --- 16 TEMPLATES UPDATED WITH KEKUATAN & KELEMAHAN ---
-            
-            // Helper blocks
-            const section = (title, content, borderClass, textClass) => `
-                <div class="${borderClass} mb-2">
-                    <h4 class="font-bold ${textClass} uppercase text-[9px] mb-0.5">${title}</h4>
-                    <p>${fmt(content)}</p>
-                </div>`;
-            
-            const twoColSection = (title1, content1, title2, content2, borderClass, textClass) => `
-                <div class="grid grid-cols-2 gap-2 mb-2">
-                    <div class="${borderClass}">
-                        <h4 class="font-bold ${textClass} uppercase text-[9px] mb-0.5">${title1}</h4>
-                        <p>${fmt(content1)}</p>
-                    </div>
-                    <div class="${borderClass}">
-                        <h4 class="font-bold ${textClass} uppercase text-[9px] mb-0.5">${title2}</h4>
-                        <p>${fmt(content2)}</p>
-                    </div>
-                </div>`;
-
+            // --- 16 TEMPLATES UPDATED (UNIQUE STRUCTURES FOR 7-16) ---
             if (currentTemplate === 1) { // Standard Blue
                 html = `<div class="h-full w-full p-8 flex flex-col relative bg-white"><div class="absolute inset-0 pattern-dots opacity-30 pointer-events-none"></div><div class="relative z-10 flex flex-col h-full border-2 border-double border-slate-300 p-6 bg-white/95"><div class="flex items-center border-b-2 border-blue-900 pb-2 mb-2"><div class="w-20 h-20 mr-4 border border-gray-200 p-1">${lg}</div><div class="flex-grow text-center"><h1 class="text-xl font-black uppercase text-blue-900 leading-tight">${sekolah}</h1><p class="text-xs text-slate-500 font-bold tracking-widest">${kodSekolah}</p></div><div class="w-12 text-right text-xs font-bold">${tarikh}</div></div><div class="text-center mb-2"><span class="bg-blue-900 text-white px-3 py-0.5 text-[9px] font-bold rounded-full uppercase">Laporan Program</span><h2 class="text-lg font-bold uppercase mt-1 text-slate-900 underline decoration-blue-300 decoration-4">${program}</h2></div><div class="bg-blue-50 border border-blue-100 p-1.5 mb-3 rounded text-[9px] grid grid-cols-2 gap-4 font-bold"><div class="flex"><span class="w-16 text-blue-900">TEMPAT</span>: ${tempat}</div><div class="flex"><span class="w-16 text-blue-900">ANJURAN</span>: ${anjuran}</div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="space-y-1 text-xs flex-grow text-justify leading-tight"><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">OBJEKTIF</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(objektif)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">LAPORAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(aktiviti)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">KEKUATAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(kekuatan)}</div></div><div class="flex gap-2"><div class="w-16 font-bold text-blue-900">KELEMAHAN</div><div class="flex-grow border-l-2 border-blue-200 pl-2">${fmt(kelemahan)}</div></div></div><div class="mt-auto pt-2 flex justify-between text-xs border-t border-slate-300"><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disediakan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sediaNama}</p><p class="mt-0.5">${sediaJawatan}</p></div><div class="text-center w-1/3"><p class="mb-4 font-bold text-slate-500">Disahkan:</p><p class="font-bold border-b border-slate-400 pb-0.5">${sahNama}</p><p class="mt-0.5">${sahJawatan}</p></div></div></div></div>`;
             } else if (currentTemplate === 2) { // Modern Green
                 html = `<div class="h-full w-full flex bg-white"><div class="w-4 bg-emerald-600 h-full pattern-lines opacity-20"></div><div class="flex-1 p-8 flex flex-col"><div class="flex items-center gap-4 mb-3 border-b border-dashed border-emerald-200 pb-2"><div class="w-20 h-20 bg-gray-50 rounded-lg border p-1">${lg}</div><div><h1 class="text-xl font-bold text-emerald-900">${sekolah}</h1><div class="flex gap-3 text-xs text-emerald-700 font-bold"><span>${kodSekolah}</span><span>•</span><span>${tarikh}</span></div></div></div><div class="mb-3"><h2 class="text-xl font-bold text-emerald-900 uppercase">${program}</h2><div class="flex gap-3 text-xs font-bold mt-1"><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">📍 ${tempat}</span><span class="bg-emerald-50 text-emerald-900 px-2 py-0.5 rounded border border-emerald-200">🤝 ${anjuran}</span></div></div><div class="mb-3">${imgs('grid grid-cols-3 gap-3', 'h-44 rounded-lg')}</div><div class="grid grid-cols-1 gap-2 text-xs flex-grow leading-tight"><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Objektif</h4><p>${fmt(objektif)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Aktiviti</h4><p>${fmt(aktiviti)}</p></div><div class="grid grid-cols-2 gap-2"><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Kekuatan</h4><p>${fmt(kekuatan)}</p></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><h4 class="font-bold text-emerald-800 uppercase mb-1 text-xs">Kelemahan</h4><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto pt-2 border-t-2 border-emerald-600 flex justify-between text-xs"><div><span class="text-slate-500 block mb-2 font-bold">DISEDIAKAN:</span><span class="font-bold uppercase">${sediaNama}</span></div><div class="text-right"><span class="text-slate-500 block mb-2 font-bold">DISAHKAN:</span><span class="font-bold uppercase">${sahNama}</span></div></div></div></div>`;
-            } else {
-                // GENERIC VARIATIONS FOR T3-T16
-                let color = 'slate';
-                const colors = ['gray', 'sky', 'pink', 'indigo', 'teal', 'amber', 'cyan', 'lime', 'yellow', 'zinc'];
-                
-                if(currentTemplate === 3) color = 'violet';
-                else if(currentTemplate === 4) color = 'red';
-                else if(currentTemplate === 5) color = 'orange';
-                else if(currentTemplate === 6) color = 'slate';
-                else color = colors[(currentTemplate - 7) % colors.length];
-
-                let headerStyle = '', contentStyle = '';
-
-                // Headers
-                if(currentTemplate === 3) headerStyle = `<div class="bg-slate-900 text-white p-4 mb-4 rounded flex items-center justify-between"><h1 class="font-bold text-lg">${sekolah}</h1><div class="w-20 h-20 bg-white rounded-full p-1">${lg}</div></div><h2 class="text-xl font-bold text-${color}-800 uppercase mb-2 border-b-2 border-${color}-200 pb-2">${program}</h2>`;
-                else if(currentTemplate === 5) headerStyle = `<div class="text-center mb-6"><div class="w-20 h-20 mx-auto mb-2 bg-white rounded-full p-1 shadow-lg">${lg}</div><h1 class="text-xl font-black text-${color}-600 uppercase">${sekolah}</h1><h2 class="text-lg font-bold text-slate-800 uppercase mt-1">${program}</h2></div>`;
-                else headerStyle = `<div class="flex items-center gap-4 mb-4 border-b-2 border-${color}-200 pb-2"><div class="w-20 h-20 border border-${color}-100 p-1">${lg}</div><div><h1 class="text-xl font-bold text-${color}-900">${sekolah}</h1><div class="flex gap-2 text-[10px] text-${color}-600 font-bold uppercase mt-1"><span>${tarikh}</span><span>|</span><span>${kodSekolah}</span></div></div></div><div class="mb-4 bg-${color}-50 p-2 rounded text-center"><h2 class="text-lg font-bold text-${color}-900 uppercase">${program}</h2></div>`;
-
-                // Content Layout
-                contentStyle = `
-                    <div class="mb-3">${imgs('grid grid-cols-3 gap-2', 'h-40 rounded border border-slate-200')}</div>
-                    <div class="flex-grow space-y-2 text-xs">
-                        <div class="p-2 border-l-4 border-${color}-500 bg-slate-50"><h4 class="font-bold text-${color}-700 text-[9px] uppercase">Objektif</h4><p>${fmt(objektif)}</p></div>
-                        <div class="p-2 border-l-4 border-${color}-500 bg-slate-50"><h4 class="font-bold text-${color}-700 text-[9px] uppercase">Aktiviti</h4><p>${fmt(aktiviti)}</p></div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div class="p-2 border-l-4 border-${color}-500 bg-slate-50"><h4 class="font-bold text-${color}-700 text-[9px] uppercase">Kekuatan</h4><p>${fmt(kekuatan)}</p></div>
-                            <div class="p-2 border-l-4 border-${color}-500 bg-slate-50"><h4 class="font-bold text-${color}-700 text-[9px] uppercase">Kelemahan</h4><p>${fmt(kelemahan)}</p></div>
-                        </div>
-                    </div>
-                `;
-
-                html = `<div class="h-full w-full p-8 flex flex-col bg-white border border-slate-200">${headerStyle}${contentStyle}<div class="mt-auto pt-2 border-t flex justify-between text-[10px]"><div>Disediakan: <b>${sediaNama}</b></div><div>Disahkan: <b>${sahNama}</b></div></div></div>`;
+            } else if (currentTemplate === 3) { // Magazine Violet
+                html = `<div class="h-full w-full flex"><div class="w-[28%] bg-slate-900 text-white p-5 flex flex-col"><div class="w-20 h-20 bg-white p-1 rounded-full mb-4 self-center">${lg}</div><h1 class="text-xs font-bold text-center uppercase text-violet-300">${sekolah}</h1><p class="text-[10px] text-center text-slate-400 mb-6 font-mono">${kodSekolah}</p><div class="bg-slate-800 rounded p-3 mb-4 text-xs space-y-3 border border-slate-700"><div><span class="block text-slate-400 font-bold">TARIKH</span>${tarikh}</div><div><span class="block text-slate-400 font-bold">TEMPAT</span>${tempat}</div><div><span class="block text-slate-400 font-bold">ANJURAN</span>${anjuran}</div></div><div class="flex-grow space-y-4 text-xs text-slate-200 text-justify"><div><strong class="text-violet-400 block mb-1">OBJEKTIF</strong>${fmt(objektif)}</div><div><strong class="text-violet-400 block mb-1">KEKUATAN</strong>${fmt(kekuatan)}</div></div><div class="mt-auto pt-4 border-t border-slate-700 text-center"><p class="text-[9px] text-slate-400 mb-2 font-bold">PENGESAHAN</p><p class="text-xs font-bold uppercase text-white">${sahNama}</p></div></div><div class="w-[72%] bg-white p-6 flex flex-col"><div class="border-b-4 border-violet-500 pb-2 mb-4"><h2 class="text-2xl font-bold uppercase text-slate-900 leading-tight">${program}</h2></div><div class="flex-grow mb-4">${imgs('grid grid-cols-2 gap-3 h-full', 'h-auto rounded')}</div><div class="grid grid-cols-2 gap-2 text-xs"><div class="bg-violet-50 p-2 border-l-4 border-violet-500"><strong class="text-violet-900 block mb-1">LAPORAN</strong>${fmt(aktiviti)}</div><div class="bg-violet-50 p-2 border-l-4 border-violet-500"><strong class="text-violet-900 block mb-1">KELEMAHAN</strong>${fmt(kelemahan)}</div></div><div class="mt-3 text-right text-xs text-slate-500">Disediakan: <span class="font-bold text-slate-800 uppercase">${sediaNama}</span></div></div></div>`;
+            } else if (currentTemplate === 4) { // Corporate Red
+                html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="h-2 w-full bg-red-700 mb-4"></div><div class="flex gap-4 mb-4 border-b border-gray-200 pb-3"><div class="w-20 h-20 border p-0.5">${lg}</div><div class="flex-1"><h1 class="text-base font-bold text-slate-900 uppercase">${sekolah}</h1><h2 class="text-xl font-bold text-red-700 uppercase mt-1">${program}</h2></div></div><div class="mb-4">${imgs('grid grid-cols-3 gap-2', 'h-44')}</div><div class="grid grid-cols-2 gap-4 flex-grow text-xs text-justify"><div class="space-y-3"><div><h3 class="font-bold text-red-700 border-b border-red-200">OBJEKTIF</h3><p class="bg-red-50 p-2">${fmt(objektif)}</p></div><div><h3 class="font-bold text-red-700 border-b border-red-200">KEKUATAN</h3><p class="bg-red-50 p-2">${fmt(kekuatan)}</p></div></div><div class="flex flex-col space-y-3"><div><h3 class="font-bold text-red-700 border-b border-red-200">AKTIVITI</h3><p class="bg-slate-50 p-2">${fmt(aktiviti)}</p></div><div><h3 class="font-bold text-red-700 border-b border-red-200">KELEMAHAN</h3><p class="bg-slate-50 p-2">${fmt(kelemahan)}</p></div></div></div><div class="mt-auto grid grid-cols-2 gap-2 border-t pt-2 text-xs"><div><span class="text-slate-500 font-bold">DISEDIAKAN:</span><strong class="uppercase block">${sediaNama}</strong></div><div><span class="text-slate-500 font-bold">DISAHKAN:</span><strong class="uppercase block">${sahNama}</strong></div></div></div>`;
+            } else if (currentTemplate === 5) { // Dynamic Orange
+                html = `<div class="h-full w-full flex flex-col bg-white overflow-hidden relative"><div class="bg-orange-500 h-24 w-[150%] -ml-[25%] rounded-b-[100%] absolute top-0 z-0"></div><div class="relative z-10 p-8 flex flex-col h-full"><div class="text-center text-white mb-6"><div class="w-20 h-20 bg-white rounded-full p-1 mx-auto shadow-lg mb-2 flex items-center justify-center">${lg}</div><h2 class="text-2xl font-black uppercase drop-shadow-md">${program}</h2></div><div class="mb-4">${imgs('grid grid-cols-3 gap-3', 'h-44 rounded-xl shadow-md')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200"><h4 class="font-bold text-orange-600 mb-2">OBJEKTIF & KEKUATAN</h4><p class="mb-2 text-slate-600 font-bold">📅 ${tarikh} | 📍 ${tempat}</p><p class="text-slate-800 leading-relaxed mb-2">${fmt(objektif)}</p><p class="text-slate-700 italic border-t border-yellow-300 pt-2">${fmt(kekuatan)}</p></div><div class="bg-orange-50 p-4 rounded-xl border border-orange-200"><h4 class="font-bold text-orange-600 mb-2">AKTIVITI & KELEMAHAN</h4><p class="text-slate-800 leading-relaxed mb-2">${fmt(aktiviti)}</p><p class="text-slate-600 italic border-t border-orange-200 pt-2 mt-auto">${fmt(kelemahan)}</p></div></div><div class="mt-auto pt-3 flex justify-between items-center text-xs"><div>Disediakan: <strong class="uppercase">${sediaNama}</strong></div><div>Disahkan: <strong class="uppercase">${sahNama}</strong></div></div></div></div>`;
+            } else if (currentTemplate === 6) { // Elegant Black
+                 html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="border-[3px] border-slate-900 h-full p-1 flex flex-col"><div class="border border-slate-300 h-full p-5 flex flex-col"><div class="flex justify-between items-start mb-5"><div class="w-20 h-20 grayscale">${lg}</div><div class="text-right"><h1 class="text-[10px] font-bold uppercase tracking-[0.2em]">${sekolah}</h1><h2 class="text-2xl font-serif font-bold mt-1 uppercase">${program}</h2><div class="w-12 h-0.5 bg-yellow-600 ml-auto mt-2"></div></div></div><div class="mb-5">${imgs('grid grid-cols-3 gap-3', 'aspect-square bg-gray-50 shadow-md grayscale-[10%]')}</div><div class="grid grid-cols-2 gap-4 text-xs font-serif leading-relaxed text-justify flex-grow border-t border-slate-200 pt-4"><div><span class="font-sans font-bold text-[9px] uppercase tracking-widest block mb-2">Objektif & Aktiviti</span><p class="mb-2">${fmt(objektif)}</p><p>${fmt(aktiviti)}</p></div><div><span class="font-sans font-bold text-[9px] uppercase tracking-widest block mb-2">Analisis (Kekuatan & Kelemahan)</span><p class="mb-2">+: ${fmt(kekuatan)}</p><p>-: ${fmt(kelemahan)}</p></div></div><div class="mt-auto pt-6 flex justify-between font-sans text-xs uppercase tracking-wider text-slate-500"><div><p class="mb-3">Disediakan Oleh</p><p class="text-slate-900 font-bold border-t border-slate-400 pt-1 inline-block min-w-[100px]">${sediaNama}</p></div><div class="text-right"><p class="mb-3">Disahkan Oleh</p><p class="text-slate-900 font-bold border-t border-slate-400 pt-1 inline-block min-w-[100px]">${sahNama}</p></div></div></div></div></div>`;
+            } 
+            // TEMPLATE 7 - 16 (VARIATIONS)
+            else if (currentTemplate === 7) { // Classic Mono
+                html = `<div class="h-full w-full p-8 bg-white border border-slate-200"><div class="flex items-center gap-4 border-b-4 border-slate-800 pb-3 mb-4"><div class="w-20 h-20 border-2 border-slate-800 p-1 rounded-full">${lg}</div><div><h1 class="text-2xl font-serif font-black uppercase text-slate-900">${sekolah}</h1><p class="text-sm font-mono">${kodSekolah} • ${tarikh}</p></div></div><div class="mb-4 text-center border-y border-slate-200 py-3"><h2 class="text-xl font-bold uppercase tracking-widest">${program}</h2></div><div class="mb-4">${imgs('grid grid-cols-3 gap-2', 'aspect-square grayscale contrast-125 border border-slate-900')}</div><div class="grid grid-cols-2 gap-8 text-xs font-serif text-justify flex-grow"><div class="space-y-4"><div><h3 class="font-bold border-b border-slate-400 uppercase mb-1">Objektif</h3><p>${fmt(objektif)}</p></div><div><h3 class="font-bold border-b border-slate-400 uppercase mb-1">Kekuatan</h3><p>${fmt(kekuatan)}</p></div></div><div class="space-y-4"><div><h3 class="font-bold border-b border-slate-400 uppercase mb-1">Aktiviti</h3><p>${fmt(aktiviti)}</p></div><div><h3 class="font-bold border-b border-slate-400 uppercase mb-1">Kelemahan</h3><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto border-t-4 border-slate-800 pt-4 flex justify-between text-xs uppercase"><div><p class="mb-4">Disediakan:</p><strong>${sediaNama}</strong></div><div><p class="mb-4">Disahkan:</p><strong>${sahNama}</strong></div></div></div>`;
+            } else if (currentTemplate === 8) { // Photo Focus
+                html = `<div class="h-full w-full flex flex-col bg-white"><div class="bg-sky-500 h-24 relative p-6 text-white"><div class="absolute -bottom-8 left-8 w-20 h-20 bg-white shadow rounded-lg p-1">${lg}</div><h1 class="text-lg font-bold pl-24 uppercase">${sekolah}</h1></div><div class="pt-10 px-8 pb-8 flex-grow flex flex-col"><h2 class="text-2xl font-black text-sky-800 mb-4 uppercase">${program}</h2><div class="mb-4">${imgs('grid grid-cols-3 gap-1', 'h-48 shadow-lg')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="space-y-2"><h4 class="font-bold text-sky-700 border-b">Objektif</h4><p>${fmt(objektif)}</p><h4 class="font-bold text-sky-700 border-b">Kekuatan</h4><p>${fmt(kekuatan)}</p></div><div class="space-y-2"><h4 class="font-bold text-sky-700 border-b">Aktiviti</h4><p>${fmt(aktiviti)}</p><h4 class="font-bold text-sky-700 border-b">Kelemahan</h4><p>${fmt(kelemahan)}</p></div></div><div class="mt-auto pt-4 border-t border-sky-200 flex justify-between text-xs text-sky-800 font-bold"><div>${sediaNama}</div><div>${sahNama}</div></div></div></div>`;
+            } else if (currentTemplate === 9) { // Soft Pastel
+                html = `<div class="h-full w-full p-8 flex flex-col bg-pink-50"><div class="bg-white p-6 rounded-xl shadow-sm h-full flex flex-col border border-pink-100"><div class="flex items-center justify-between mb-4 border-b border-pink-100 pb-2"><div><h1 class="text-lg font-bold text-pink-500 uppercase">${sekolah}</h1><p class="text-xs text-slate-400">${tarikh} | ${tempat}</p></div><div class="w-20 h-20">${lg}</div></div><h2 class="text-xl font-bold text-center text-slate-700 uppercase mb-4 bg-pink-50 p-2 rounded">${program}</h2><div class="mb-4">${imgs('grid grid-cols-3 gap-3', 'h-44 rounded-full border-4 border-pink-50')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="space-y-2"><div class="bg-pink-50 p-2 rounded"><h4 class="font-bold text-pink-400 mb-1">OBJEKTIF</h4><p>${fmt(objektif)}</p></div><div class="bg-pink-50 p-2 rounded"><h4 class="font-bold text-pink-400 mb-1">KEKUATAN</h4><p>${fmt(kekuatan)}</p></div></div><div class="space-y-2"><div class="bg-slate-50 p-2 rounded"><h4 class="font-bold text-slate-400 mb-1">AKTIVITI</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-50 p-2 rounded"><h4 class="font-bold text-slate-400 mb-1">KELEMAHAN</h4><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto pt-2 flex justify-between text-xs text-slate-400"><div>${sediaNama}</div><div>${sahNama}</div></div></div></div>`;
+            } else if (currentTemplate === 10) { // Corporate Blue
+                html = `<div class="h-full w-full bg-white flex"><div class="w-20 bg-indigo-900 h-full flex flex-col items-center py-8 gap-4"><div class="w-16 h-16 bg-white rounded p-1">${lg}</div><div class="text-white text-[10px] uppercase font-bold writing-vertical-lr tracking-widest flex-grow text-center">${sekolah}</div></div><div class="flex-1 p-8 flex flex-col"><h2 class="text-2xl font-black text-indigo-900 mb-1 uppercase">${program}</h2><p class="text-xs font-bold text-indigo-400 mb-4">${tarikh} • ${tempat} • ${anjuran}</p><div class="mb-4">${imgs('grid grid-cols-3 gap-2', 'h-48 border-b-4 border-indigo-900')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="space-y-4"><div class="border-l-4 border-indigo-200 pl-3"><h3 class="font-bold text-indigo-900">OBJEKTIF</h3><p>${fmt(objektif)}</p></div><div class="border-l-4 border-indigo-900 pl-3"><h3 class="font-bold text-indigo-900">KEKUATAN</h3><p>${fmt(kekuatan)}</p></div></div><div class="space-y-4"><div class="border-l-4 border-indigo-500 pl-3"><h3 class="font-bold text-indigo-900">AKTIVITI</h3><p>${fmt(aktiviti)}</p></div><div class="border-l-4 border-indigo-900 pl-3"><h3 class="font-bold text-indigo-900">KELEMAHAN</h3><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto flex justify-end gap-8 text-xs font-bold text-indigo-900"><div>DISEDIAKAN: ${sediaNama}</div><div>DISAHKAN: ${sahNama}</div></div></div></div>`;
+            } else if (currentTemplate === 11) { // Grid Galeri
+                 html = `<div class="h-full w-full p-8 bg-teal-50 flex flex-col"><div class="bg-white shadow-lg p-6 flex-grow flex flex-col"><div class="flex gap-4 mb-4"><div class="w-20 h-20 bg-teal-100 p-2 rounded">${lg}</div><div><h1 class="text-xl font-bold text-teal-800 uppercase">${sekolah}</h1><h2 class="text-sm font-bold text-teal-600 uppercase">${program}</h2></div></div><div class="mb-4 flex-grow-0">${imgs('grid grid-cols-3 gap-2', 'h-40 rounded')}</div><div class="grid grid-cols-2 gap-4 text-xs flex-grow"><div class="space-y-2"><div class="bg-teal-50 p-2 border-l-4 border-teal-500"><h4 class="font-bold">OBJEKTIF</h4><p>${fmt(objektif)}</p></div><div class="bg-teal-50 p-2 border-l-4 border-teal-500"><h4 class="font-bold">KEKUATAN</h4><p>${fmt(kekuatan)}</p></div></div><div class="space-y-2"><div class="bg-slate-50 p-2 border border-slate-100"><h4 class="font-bold text-slate-500 mb-2">LAPORAN AKTIVITI</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-50 p-2 border border-slate-100"><h4 class="font-bold text-slate-500 mb-2">KELEMAHAN</h4><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto pt-4 border-t flex justify-between text-xs"><div><p class="text-slate-400 text-[8px]">DISEDIAKAN</p><b>${sediaNama}</b></div><div><p class="text-slate-400 text-[8px]">DISAHKAN</p><b>${sahNama}</b></div></div></div></div>`;
+            } else if (currentTemplate === 12) { // Academic
+                 html = `<div class="h-full w-full p-8 bg-white flex flex-col font-serif"><div class="text-center border-b-2 border-amber-800 pb-4 mb-4"><div class="w-20 h-20 mx-auto mb-2">${lg}</div><h1 class="text-xl font-bold uppercase tracking-widest text-amber-900">${sekolah}</h1><p class="text-xs italic text-amber-700">${kodSekolah}</p></div><div class="mb-4"><h2 class="text-2xl font-bold text-center uppercase mb-2">${program}</h2><p class="text-center text-xs border-y border-amber-200 py-1">${tarikh} | ${tempat}</p></div><div class="mb-4">${imgs('grid grid-cols-3 gap-4', 'h-44 shadow-lg border border-amber-100')}</div><div class="columns-2 gap-6 text-xs text-justify leading-relaxed flex-grow"><p class="mb-4"><strong class="block text-amber-800">OBJEKTIF:</strong>${fmt(objektif)}</p><p class="mb-4"><strong class="block text-amber-800">AKTIVITI:</strong>${fmt(aktiviti)}</p><p class="mb-4"><strong class="block text-amber-800">KEKUATAN:</strong>${fmt(kekuatan)}</p><p><strong class="block text-amber-800">KELEMAHAN:</strong>${fmt(kelemahan)}</p></div><div class="mt-auto pt-6 flex justify-around text-xs uppercase text-amber-900 font-bold"><div><br>------------------<br>${sediaNama}</div><div><br>------------------<br>${sahNama}</div></div></div>`;
+            } else if (currentTemplate === 13) { // Newsletter
+                 html = `<div class="h-full w-full p-6 bg-white flex flex-col"><div class="border-b-4 border-cyan-500 pb-2 mb-4 flex justify-between items-end"><h1 class="text-4xl font-black text-cyan-500 tracking-tighter">BERITA SEKOLAH</h1><div class="text-right text-xs font-bold text-slate-400">${tarikh}<br>${kodSekolah}</div></div><div class="flex gap-4 mb-4"><div class="w-2/3"><h2 class="text-2xl font-bold uppercase leading-none mb-2">${program}</h2><p class="text-xs text-justify border-b border-slate-200 pb-2 mb-2">${fmt(objektif)}</p><div class="text-xs text-justify columns-2 gap-4">${fmt(aktiviti)}</div></div><div class="w-1/3 flex flex-col gap-2"><div class="w-24 h-24 bg-slate-100 mx-auto rounded-full p-2 mb-2">${lg}</div><div class="bg-cyan-50 p-2 text-[10px] text-cyan-800 font-bold text-center rounded">PLUS: ${fmt(kekuatan)}</div><div class="bg-slate-50 p-2 text-[10px] text-slate-800 font-bold text-center rounded">MINUS: ${fmt(kelemahan)}</div></div></div><div class="mb-2 flex-grow">${imgs('grid grid-cols-3 gap-2', 'h-48 bg-slate-900')}</div><div class="mt-auto bg-slate-900 text-white p-2 text-xs flex justify-between rounded"><span>Disediakan: ${sediaNama}</span><span>Disahkan: ${sahNama}</span></div></div>`;
+            } else if (currentTemplate === 14) { // Compact
+                 html = `<div class="h-full w-full p-4 flex flex-col bg-white"><div class="bg-lime-500 p-4 rounded-t-xl flex items-center gap-4 text-white"><div class="w-20 h-20 bg-white rounded p-1">${lg}</div><h1 class="text-xl font-bold uppercase flex-grow">${sekolah}</h1><span class="text-xs font-mono bg-lime-700 px-2 rounded">${kodSekolah}</span></div><div class="border-x-2 border-lime-500 p-4 flex-grow flex flex-col"><h2 class="text-xl font-bold text-center mb-4 border-b pb-2">${program}</h2><div class="mb-4">${imgs('grid grid-cols-3 gap-1', 'h-44')}</div><table class="w-full text-xs border border-slate-300"><tr><td class="p-2 border font-bold bg-slate-50 w-1/4">OBJEKTIF</td><td class="p-2 border">${fmt(objektif)}</td></tr><tr><td class="p-2 border font-bold bg-slate-50">AKTIVITI</td><td class="p-2 border">${fmt(aktiviti)}</td></tr><tr><td class="p-2 border font-bold bg-slate-50">KEKUATAN</td><td class="p-2 border">${fmt(kekuatan)}</td></tr><tr><td class="p-2 border font-bold bg-slate-50">KELEMAHAN</td><td class="p-2 border">${fmt(kelemahan)}</td></tr></table></div><div class="bg-lime-500 p-2 rounded-b-xl text-white text-xs flex justify-between font-bold"><span>${sediaNama}</span><span>${sahNama}</span></div></div>`;
+            } else if (currentTemplate === 15) { // Vibrant
+                 html = `<div class="h-full w-full bg-slate-900 p-8 flex flex-col text-white"><div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4"><div><h1 class="text-2xl font-black text-yellow-400 uppercase">${sekolah}</h1><p class="text-xs text-slate-400">${kodSekolah}</p></div><div class="w-20 h-20 bg-white rounded-full p-1">${lg}</div></div><h2 class="text-xl font-bold text-center mb-6 uppercase tracking-widest border-y border-yellow-400 py-2">${program}</h2><div class="mb-6">${imgs('grid grid-cols-3 gap-4', 'h-44 border-2 border-yellow-400 rounded-lg')}</div><div class="grid grid-cols-2 gap-6 text-xs flex-grow"><div class="space-y-4"><div class="bg-slate-800 p-4 rounded border border-slate-700"><h4 class="text-yellow-400 font-bold mb-2">OBJEKTIF</h4><p>${fmt(objektif)}</p></div><div class="bg-slate-800 p-4 rounded border border-slate-700"><h4 class="text-yellow-400 font-bold mb-2">KEKUATAN</h4><p>${fmt(kekuatan)}</p></div></div><div class="space-y-4"><div class="bg-slate-800 p-4 rounded border border-slate-700"><h4 class="text-yellow-400 font-bold mb-2">AKTIVITI</h4><p>${fmt(aktiviti)}</p></div><div class="bg-slate-800 p-4 rounded border border-slate-700"><h4 class="text-yellow-400 font-bold mb-2">KELEMAHAN</h4><p>${fmt(kelemahan)}</p></div></div></div><div class="mt-auto pt-4 flex justify-between text-xs text-slate-400"><span>${sediaNama}</span><span>${sahNama}</span></div></div>`;
+            } else if (currentTemplate === 16) { // Official 2
+                 html = `<div class="h-full w-full p-8 flex flex-col bg-white"><div class="text-center border-b-4 border-double border-zinc-800 pb-4 mb-4"><div class="w-20 h-20 mx-auto mb-2">${lg}</div><h1 class="text-lg font-bold uppercase">${sekolah}</h1><p class="text-xs">${kodSekolah}</p></div><div class="flex-grow border-l-2 border-zinc-200 pl-6 flex flex-col"><h2 class="text-2xl font-black uppercase text-zinc-800 mb-4">${program}</h2><div class="mb-4">${imgs('grid grid-cols-3 gap-2', 'h-44 grayscale hover:grayscale-0 transition')}</div><div class="space-y-4 text-xs text-justify flex-grow"><p><strong class="block text-zinc-500">OBJEKTIF</strong>${fmt(objektif)}</p><p><strong class="block text-zinc-500">AKTIVITI</strong>${fmt(aktiviti)}</p><div class="grid grid-cols-2 gap-4"><div><strong class="block text-zinc-500">KEKUATAN</strong>${fmt(kekuatan)}</div><div><strong class="block text-zinc-500">KELEMAHAN</strong>${fmt(kelemahan)}</div></div></div></div><div class="mt-auto border-t pt-4 flex justify-between text-xs font-bold uppercase"><div>${sediaNama}</div><div>${sahNama}</div></div></div>`;
             }
 
             c.innerHTML = html;
