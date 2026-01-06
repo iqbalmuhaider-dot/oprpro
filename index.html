@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro </title>
+    <title>Sistem Generator OPR Pro (Fixed Admin)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -13,7 +13,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&family=Merriweather:wght@300;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     
     <style>
         /* WRAPPER UTAMA */
@@ -29,7 +29,6 @@
             color: #334155;
         }
         .font-serif { font-family: 'Playfair Display', serif; }
-        .font-mono-serif { font-family: 'Merriweather', serif; }
         .pattern-dots { background-image: radial-gradient(#cbd5e1 1px, transparent 1px); background-size: 20px 20px; }
         
         /* A4 Styles */
@@ -105,6 +104,7 @@
             </div>
             <div class="flex-1 overflow-y-auto p-6">
                 <div class="max-w-6xl mx-auto space-y-6">
+                    <!-- Stats Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Whitelist</div><div class="text-3xl font-bold text-blue-600 mt-1" id="stat-whitelist">0</div></div>
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Download</div><div class="text-3xl font-bold text-red-600 mt-1" id="stat-downloads">0</div></div>
@@ -112,8 +112,14 @@
                         <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200"><div class="text-xs font-bold uppercase text-slate-500">Top Template</div><div class="text-xl font-bold text-purple-600 mt-1 truncate" id="stat-popular">-</div></div>
                     </div>
                     
-                    <div class="text-right"><button onclick="window.resetSystem()" class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 inline-flex"><i data-lucide="trash-2" class="w-4 h-4"></i> Reset Statistik</button></div>
+                    <!-- Reset Button -->
+                    <div class="text-right">
+                        <button onclick="window.resetSystem()" class="bg-red-100 hover:bg-red-200 text-red-700 px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 inline-flex border border-red-200">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i> Reset Semua Statistik
+                        </button>
+                    </div>
 
+                    <!-- Whitelist Management -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
                         <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="users" class="w-4 h-4"></i> Pengurusan Whitelist</h3>
                         <div class="flex gap-2 mb-4 flex-col sm:flex-row">
@@ -124,9 +130,24 @@
                         <div class="overflow-y-auto max-h-60 border rounded"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b sticky top-0"><tr><th class="p-3">Email</th><th class="p-3">Tamat</th><th class="p-3 text-right">Tindakan</th></tr></thead><tbody id="whitelist-table-body" class="divide-y"></tbody></table></div>
                     </div>
                     
+                    <!-- Activity Logs -->
                     <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Log Aktiviti</h3>
-                        <div class="overflow-x-auto"><table class="w-full text-sm text-left"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">Masa</th><th class="p-3">Email</th><th class="p-3">Aktiviti</th><th class="p-3">Butiran</th></tr></thead><tbody id="logs-table-body" class="divide-y text-slate-700"></tbody></table></div>
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Log Aktiviti Terkini</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm text-left">
+                                <thead class="bg-slate-50 text-slate-500 font-bold border-b">
+                                    <tr>
+                                        <th class="p-3">Masa</th>
+                                        <th class="p-3">Email</th>
+                                        <th class="p-3">Aktiviti</th>
+                                        <th class="p-3">Butiran</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="logs-table-body" class="divide-y text-slate-700">
+                                    <tr><td colspan="4" class="p-3 text-center text-slate-400 italic">Memuatkan log...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,7 +176,7 @@
                                  <span id="profile-logo-text" class="text-xs text-slate-400 text-center px-2">Tiada Logo</span>
                              </div>
                              
-                             <!-- INPUT LINK GOOGLE DRIVE DI SINI (PREMIUM) -->
+                             <!-- INPUT LINK GOOGLE DRIVE -->
                              <div class="flex w-full gap-1 mb-2">
                                 <input type="text" id="profile-logo-url" placeholder="G-Drive Link" class="w-full px-2 py-1 border rounded text-[10px] text-center">
                                 <button onclick="window.handleDriveLink(document.getElementById('profile-logo-url').value, 'profile')" class="bg-blue-600 text-white px-2 rounded text-[10px] font-bold">OK</button>
@@ -222,6 +243,7 @@
                             </div>
                         </div>
                     </div>
+
                     <hr class="border-slate-100">
                     <div class="space-y-2"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1"><i data-lucide="file-text" class="w-3 h-3"></i> Butiran Program</h3><input type="text" id="program" oninput="window.updateData()" placeholder="Nama Program" class="w-full px-3 py-2 border rounded text-xs font-bold bg-yellow-50"><div class="grid grid-cols-2 gap-2"><input type="text" id="tarikh" oninput="window.updateData()" placeholder="Tarikh" class="w-full px-3 py-2 border rounded text-xs"><input type="text" id="tempat" oninput="window.updateData()" placeholder="Tempat" class="w-full px-3 py-2 border rounded text-xs"></div><input type="text" id="anjuran" oninput="window.updateData()" placeholder="Anjuran" class="w-full px-3 py-2 border rounded text-xs"></div>
                     <hr class="border-slate-100">
@@ -229,10 +251,26 @@
                     <hr class="border-slate-100">
                     <div class="space-y-4">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Laporan</h3>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label><button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label><button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        <!-- OBJEKTIF -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div>
+                            <textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        <!-- RINGKASAN AKTIVITI -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div>
+                            <textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        <!-- KEKUATAN -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label><button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div>
+                            <textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        <!-- KELEMAHAN -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label><button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div>
+                            <textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
                     </div>
                     <hr class="border-slate-100">
                     <div class="space-y-2 pb-6"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tandatangan</h3><div class="grid grid-cols-2 gap-3"><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disediakan:</label><input type="text" id="sediaNama" oninput="window.updateData()" placeholder="Nama Guru" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sediaJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disahkan:</label><input type="text" id="sahNama" oninput="window.updateData()" placeholder="Nama Pentadbir" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sahJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div></div></div>
@@ -280,10 +318,50 @@
         ];
 
         const suggestions = {
-            objektif: ["Melahirkan murid yang seimbang dari segi jasmani, emosi, rohani dan intelek (JERI).", "Mengeratkan silaturrahim antara guru, murid dan ibu bapa.", "Memupuk semangat kerjasama dan toleransi dalam kalangan murid.", "Meningkatkan pencapaian akademik murid dalam mata pelajaran teras."],
-            aktiviti: ["Pendaftaran kehadiran peserta dan guru.", "Nyanyian Lagu Negaraku, Lagu Negeri dan Lagu Sekolah.", "Ucapan alu-aluan oleh Pengerusi Majlis.", "Ucapan perasmian oleh Guru Besar / Pengetua.", "Gimik pelancaran program.", "Sesi bergambar kenang-kenangan."],
-            kekuatan: ["Kerjasama yang sangat padu daripada semua guru dan staf.", "Murid menunjukkan minat dan komitmen yang tinggi.", "Kehadiran murid sangat menggalakkan.", "Disiplin murid terkawal sepanjang majlis berlangsung.", "Peralatan dan kemudahan yang mencukupi."],
-            kelemahan: ["Kekangan masa menyebabkan beberapa aktiviti dipendekkan.", "Masalah teknikal pada sistem siar raya (PA System).", "Ruang tempat yang agak terhad untuk jumlah peserta yang ramai.", "Gangguan cuaca (hujan/panas terik) menjejaskan aktiviti luar."]
+            objektif: [
+                "Melahirkan murid yang seimbang dari segi jasmani, emosi, rohani dan intelek (JERI).",
+                "Mengeratkan silaturrahim antara guru, murid dan ibu bapa.",
+                "Memupuk semangat kerjasama dan toleransi dalam kalangan murid.",
+                "Meningkatkan pencapaian akademik murid dalam mata pelajaran teras.",
+                "Membudayakan amalan membaca (NILAM) dalam kalangan warga sekolah.",
+                "Memberi pendedahan teknik menjawab soalan peperiksaan dengan betul.",
+                "Meningkatkan peratus kehadiran murid ke sekolah setiap hari.",
+                "Membentuk sahsiah dan disiplin terpuji dalam diri murid.",
+                "Mencungkil bakat terpendam murid dalam bidang sukan dan permainan."
+            ],
+            aktiviti: [
+                "Pendaftaran kehadiran peserta dan guru.",
+                "Nyanyian Lagu Negaraku, Lagu Negeri dan Lagu Sekolah.",
+                "Ucapan alu-aluan oleh Pengerusi Majlis.",
+                "Ucapan perasmian oleh Guru Besar / Pengetua.",
+                "Gimik pelancaran program.",
+                "Bengkel Teknik Menjawab Soalan.",
+                "Pertandingan Bercerita dan Pidato.",
+                "Gotong-royong membersihkan kawasan sekolah.",
+                "Latihan kebakaran (Fire Drill).",
+                "Sukaneka dan acara balapan.",
+                "Penyampaian hadiah dan cenderahati.",
+                "Jamuan ringan dan bersurai."
+            ],
+            kekuatan: [
+                "Kerjasama yang sangat padu daripada semua guru dan staf.",
+                "Murid menunjukkan minat dan komitmen yang tinggi.",
+                "Kehadiran murid sangat menggalakkan.",
+                "Disiplin murid terkawal sepanjang majlis berlangsung.",
+                "Peralatan dan kemudahan yang mencukupi.",
+                "Sokongan padu daripada pihak PIBG dan ibu bapa.",
+                "Cuaca yang baik melancarkan perjalanan program.",
+                "Pengurusan masa yang efisien oleh penganjur."
+            ],
+            kelemahan: [
+                "Kekangan masa menyebabkan beberapa aktiviti dipendekkan.",
+                "Masalah teknikal pada sistem siar raya (PA System).",
+                "Ruang tempat yang agak terhad untuk jumlah peserta yang ramai.",
+                "Gangguan cuaca (hujan/panas terik) menjejaskan aktiviti luar.",
+                "Sebilangan kecil murid kurang memberi tumpuan semasa ceramah.",
+                "Bajet kewangan yang agak terhad.",
+                "Kurang penyertaan daripada murid tahap 1."
+            ]
         };
 
         window.loadInputs = function() { for (const [k, v] of Object.entries(data)) { const el = document.getElementById(k); if (el) el.value = v; } };
@@ -404,6 +482,11 @@
             if(window.trackStat) window.trackStat('prints', currentTemplate);
             originalPrint();
         };
+        
+        // RESET FUNCTION
+        window.resetSystem = function() {
+            // Function placeholder, actual logic in Firebase module
+        }
 
         function renderPreview() {
             const c = document.getElementById('preview-container');
@@ -553,6 +636,13 @@
             loadAdminData(); alert('Added');
         };
         window.delW = async (id) => { if(confirm('Del?')) { await deleteDoc(doc(db,'artifacts',appId,'public','data','whitelist',id)); loadAdminData(); }};
+        window.resetSystem = async () => {
+             if(confirm("AWAS! Ini akan memadam SEMUA statistik download & cetak. Teruskan?")) {
+                 await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general'), { downloads: 0, prints: 0 }, { merge: false });
+                 alert("Statistik telah di-reset.");
+                 loadAdminData();
+             }
+        };
         window.saveUserProfile = async () => {
              if(!currentUser) return;
              try {
