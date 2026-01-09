@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Generator OPR Pro (Log Fixed)</title>
+    <title>Sistem Generator OPR Pro (Final Fixed)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
@@ -70,7 +70,7 @@
     <div id="login-page" class="fixed inset-0 z-[200] bg-slate-50 flex flex-col items-center justify-center p-6">
         <div class="absolute inset-0 pattern-dots opacity-50 pointer-events-none"></div>
         <div class="relative z-10 max-w-md w-full bg-white border border-slate-200 p-10 rounded-2xl shadow-xl animate-fade-up text-center">
-            <img src="https://i.postimg.cc/s2BpLNZw/Untitled-design.png" class="h-32 w-auto mx-auto mb-8 hover:scale-105 transition-transform" alt="Logo">
+            <img src="https://i.postimg.cc/k4N1mPR1/semat-04.png" class="h-32 w-auto mx-auto mb-8 hover:scale-105 transition-transform" alt="Logo">
             <h1 class="text-3xl font-extrabold mb-3 text-slate-900">Sistem OPR Pro</h1>
             <p class="text-slate-500 text-sm mb-8">Laporan Sekolah Profesional & Mudah.</p>
             <button onclick="window.loginGoogle()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-3 transition transform hover:scale-[1.02] shadow-lg group">
@@ -86,7 +86,7 @@
         <!-- HEADER -->
         <div id="auth-bar" class="bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm z-50 flex-shrink-0">
             <div class="font-bold text-slate-700 flex items-center gap-3">
-                <img src="https://i.postimg.cc/s2BpLNZw/Untitled-design.png" class="h-8 w-auto object-contain" alt="Logo">
+                <img src="https://i.postimg.cc/k4N1mPR1/semat-04.png" class="h-8 w-auto object-contain" alt="Logo">
                 <span>Generator OPR Pro</span>
             </div>
             <div id="user-info" class="flex items-center gap-3">
@@ -232,6 +232,7 @@
                         
                         <div class="mt-2 pt-2 border-t border-slate-200">
                             <label class="text-[9px] font-bold text-slate-400 block mb-1">Logo Sekolah</label>
+                            <!-- HANYA UPLOAD FILE UNTUK USER BIASA/SIDEBAR -->
                             <div class="flex items-center gap-2">
                                 <label class="flex-1 cursor-pointer bg-white border border-dashed border-slate-300 hover:border-blue-400 text-slate-500 text-[10px] py-1.5 px-2 rounded flex items-center justify-center gap-2 transition">
                                     <i data-lucide="upload" class="w-3 h-3"></i> <span id="logo-label" class="truncate">Upload File</span>
@@ -249,10 +250,42 @@
                     <hr class="border-slate-100">
                     <div class="space-y-4">
                         <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Laporan</h3>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label><button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label><button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label><button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
-                        <div><div class="flex justify-between items-end mb-1"><label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label><button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button></div><textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea></div>
+                        
+                        <!-- OBJEKTIF -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1">
+                                <label class="text-[10px] font-bold text-slate-600 block">1. Objektif</label>
+                                <button onclick="window.openSuggestions('objektif')" class="text-[9px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
+                            </div>
+                            <textarea id="objektif" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+                        
+                        <!-- RINGKASAN AKTIVITI -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1">
+                                <label class="text-[10px] font-bold text-slate-600 block">2. Ringkasan Aktiviti</label>
+                                <button onclick="window.openSuggestions('aktiviti')" class="text-[9px] bg-green-100 text-green-700 px-2 py-0.5 rounded-full hover:bg-green-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
+                            </div>
+                            <textarea id="aktiviti" rows="3" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        <!-- KEKUATAN PROGRAM (NEW) -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1">
+                                <label class="text-[10px] font-bold text-slate-600 block">3. Kekuatan Program</label>
+                                <button onclick="window.openSuggestions('kekuatan')" class="text-[9px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full hover:bg-indigo-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
+                            </div>
+                            <textarea id="kekuatan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        <!-- KELEMAHAN PROGRAM (NEW) -->
+                        <div>
+                            <div class="flex justify-between items-end mb-1">
+                                <label class="text-[10px] font-bold text-slate-600 block">4. Kelemahan Program</label>
+                                <button onclick="window.openSuggestions('kelemahan')" class="text-[9px] bg-red-100 text-red-700 px-2 py-0.5 rounded-full hover:bg-red-200 flex items-center gap-1"><i data-lucide="plus-circle" class="w-3 h-3"></i> Cadangan</button>
+                            </div>
+                            <textarea id="kelemahan" rows="2" oninput="window.updateData()" class="w-full px-3 py-1.5 border rounded text-xs focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
                     </div>
                     <hr class="border-slate-100">
                     <div class="space-y-2 pb-6"><h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tandatangan</h3><div class="grid grid-cols-2 gap-3"><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disediakan:</label><input type="text" id="sediaNama" oninput="window.updateData()" placeholder="Nama Guru" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sediaJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div><div class="bg-slate-50 p-2 rounded border border-slate-100"><label class="text-[9px] text-slate-500 font-bold block mb-1">Disahkan:</label><input type="text" id="sahNama" oninput="window.updateData()" placeholder="Nama Pentadbir" class="w-full p-1 border rounded text-[10px] font-bold mb-1"><input type="text" id="sahJawatan" oninput="window.updateData()" placeholder="Jawatan" class="w-full p-1 border rounded text-[9px]"></div></div></div>
@@ -277,8 +310,8 @@
     </div>
 
     <script>
-        let currentTemplate = 1, images = [], logo = null, currentField = ''; 
-        let data = { sekolah: "SK MASJID TANAH", kodSekolah: "MBA0001", program: "PROGRAM MINGGU BAHASA MELAYU", tarikh: "20 MEI 2024", tempat: "DEWAN GEMILANG", anjuran: "PANITIA BAHASA MELAYU", objektif: "1. Mencungkil bakat murid.\n2. Memartabatkan Bahasa Melayu.", aktiviti: "1. Perasmian oleh Guru Besar.\n2. Pertandingan bercerita.\n3. Pertandingan pidato.\n4. Penyampaian hadiah.", kekuatan: "Kerjasama guru sangat baik.", kelemahan: "Masa agak terhad.", sediaNama: "CIKGU AMIRUL", sediaJawatan: "Setiausaha Program", sahNama: "PN HJH ZAINAB", sahJawatan: "Guru Besar" };
+        let currentTemplate = 1, images = [], logo = "https://i.postimg.cc/k4N1mPR1/semat-04.png", currentField = ''; 
+        let data = { sekolah: "SEKOLAH KEBANGSAAN MASJID TANAH (INTEG)", kodSekolah: "MBA0001", program: "PROGRAM MINGGU BAHASA MELAYU", tarikh: "20 MEI 2024", tempat: "DEWAN GEMILANG", anjuran: "PANITIA BAHASA MELAYU", objektif: "1. Mencungkil bakat murid.\n2. Memartabatkan Bahasa Melayu.", aktiviti: "1. Perasmian oleh Guru Besar.\n2. Pertandingan bercerita.\n3. Pertandingan pidato.\n4. Penyampaian hadiah.", kekuatan: "Kerjasama guru sangat baik.", kelemahan: "Masa agak terhad.", sediaNama: "CIKGU AMIRUL", sediaJawatan: "Setiausaha Program", sahNama: "PN HJH ZAINAB", sahJawatan: "Guru Besar" };
         
         const templates = [
             { id: 1, name: "Standard Rasmi", color: "blue", desc: "Format KPM Asas", free: true },
@@ -403,7 +436,7 @@
         };
 
         window.removeLogo = function() { 
-            logo = null; 
+            logo = "https://i.postimg.cc/k4N1mPR1/semat-04.png"; 
             document.getElementById('logo-label').innerText = "Upload File";
             const btns = document.querySelectorAll('button[onclick="window.removeLogo()"]');
             btns.forEach(b => b.classList.add('hidden'));
@@ -542,22 +575,15 @@
                 document.getElementById('login-page').classList.add('hidden');
                 document.getElementById('main-app').classList.remove('hidden');
                 document.getElementById('user-display-name').innerText = user.displayName;
+                logActivity(user.email, 'Login', 'Success');
                 
-                // Determine status first
-                let statusTag = 'Free User';
-
                 try {
                     const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', user.email);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         const d = docSnap.data();
-                        if(d.expiryDate && new Date(d.expiryDate) < new Date()) { 
-                            isPremium=false; isAdmin=false; statusTag='Expired';
-                        }
-                        else { 
-                            isPremium=true; isAdmin=(d.role==='admin'); 
-                            statusTag = isAdmin ? 'Super Admin' : 'Premium User';
-                        }
+                        if(d.expiryDate && new Date(d.expiryDate) < new Date()) { isPremium=false; isAdmin=false; }
+                        else { isPremium=true; isAdmin=(d.role==='admin'); }
                         
                         if(isPremium) {
                             if(d.sekolah) { document.getElementById('sekolah').value = d.sekolah; data.sekolah = d.sekolah; }
@@ -583,17 +609,13 @@
                         const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
                         if(wlSnap.empty && confirm("Database kosong. Jadikan anda Admin?")) {
                              await setDoc(docRef, { email: user.email, role: 'admin', expiryDate: null, createdAt: serverTimestamp() });
-                             isPremium=true; isAdmin=true; statusTag = 'Super Admin (Auto)';
+                             isPremium=true; isAdmin=true;
                         } else {
                              document.getElementById('btn-save-profile').classList.add('hidden');
                              document.getElementById('btn-save-locked').classList.remove('hidden');
                         }
                     }
                 } catch(e){console.error(e);}
-                
-                // Log Activity AFTER determining status
-                logActivity(user.email, 'Login', `Status: ${statusTag}`);
-
                 const bA = document.getElementById('btn-admin');
                 if(isAdmin) bA.classList.remove('hidden'); else bA.classList.add('hidden');
                 const badge = document.getElementById('user-status-badge');
@@ -613,72 +635,23 @@
         window.loginGoogle = () => signInWithPopup(auth, provider).catch(e => alert(e.message));
         window.logoutApp = () => signOut(auth);
         window.toggleAdminDashboard = async () => { document.getElementById('admin-dashboard').classList.toggle('hidden'); loadAdminData(); };
-        
         async function loadAdminData() {
-            try {
-                const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
-                document.getElementById('stat-whitelist').innerText = wlSnap.size;
-                const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general');
-                const sSnap = await getDoc(statsRef);
-                if(sSnap.exists()) { 
-                    const s=sSnap.data(); 
-                    document.getElementById('stat-downloads').innerText=s.downloads||0; 
-                    document.getElementById('stat-prints').innerText=s.prints||0; 
-                    
-                    let max = 0, best = '-';
-                    for (const [key, value] of Object.entries(s)) {
-                        if (key.startsWith('template_')) {
-                            if (value > max) { max = value; best = key.replace('template_', '').replace('_downloads', '').replace('_prints', ''); }
-                        }
-                    }
-                    document.getElementById('stat-popular').innerText = `T${best} (${max})`;
-                }
-                
-                const tb = document.getElementById('whitelist-table-body'); tb.innerHTML='';
-                if(wlSnap.empty) tb.innerHTML = '<tr><td colspan="3" class="p-3 text-center text-slate-400">Tiada data whitelist</td></tr>';
-                wlSnap.forEach(d => { const dt=d.data(); tb.innerHTML += `<tr><td class="p-2 border-b">${dt.email} ${dt.role==='admin'?'(A)':''}</td><td class="p-2 border-b">${dt.expiryDate||'-'}</td><td class="p-2 border-b text-right"><button onclick="window.delW('${d.id}')" class="text-red-500 font-bold">X</button></td></tr>`; });
-
-                // Fetch Logs (Simple query without orderBy to avoid index issues initially)
-                // If this works, you can add orderBy('timestamp', 'desc') later after indexing
-                const logsQ = query(collection(db, 'artifacts', appId, 'public', 'data', 'logs'), limit(20)); 
-                const logsSnap = await getDocs(logsQ);
-                const logsTb = document.getElementById('logs-table-body'); logsTb.innerHTML = '';
-                
-                if (logsSnap.empty) {
-                    logsTb.innerHTML = '<tr><td colspan="4" class="p-3 text-center text-slate-400 italic">Tiada rekod aktiviti.</td></tr>';
-                } else {
-                    // Client-side sort since we removed server-side sort to prevent errors
-                    const logs = [];
-                    logsSnap.forEach(d => logs.push(d.data()));
-                    logs.sort((a,b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0)); // Sort Newest First
-
-                    logs.forEach(l => { 
-                        const time = l.timestamp ? new Date(l.timestamp.seconds * 1000).toLocaleString() : '-';
-                        logsTb.innerHTML += `<tr><td class="p-2 border-b text-xs">${time}</td><td class="p-2 border-b text-xs">${l.email}</td><td class="p-2 border-b text-xs font-bold">${l.action}</td><td class="p-2 border-b text-xs text-slate-500">${l.details || ''}</td></tr>`;
-                    });
-                }
-            } catch(e) { console.error("Admin Load Error", e); }
+            const wlSnap = await getDocs(collection(db, 'artifacts', appId, 'public', 'data', 'whitelist'));
+            document.getElementById('stat-whitelist').innerText = wlSnap.size;
+            const statsRef = doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general');
+            const sSnap = await getDoc(statsRef);
+            if(sSnap.exists()) { const s=sSnap.data(); document.getElementById('stat-downloads').innerText=s.downloads||0; document.getElementById('stat-prints').innerText=s.prints||0; }
+            const tb = document.getElementById('whitelist-table-body'); tb.innerHTML='';
+            wlSnap.forEach(d => { const dt=d.data(); tb.innerHTML += `<tr><td class="p-2 border-b">${dt.email} ${dt.role==='admin'?'(A)':''}</td><td class="p-2 border-b">${dt.expiryDate||'-'}</td><td class="p-2 border-b text-right"><button onclick="window.delW('${d.id}')" class="text-red-500 font-bold">X</button></td></tr>`; });
         }
-        
         window.addToWhitelist = async () => {
-            const em = document.getElementById('new-whitelist-email').value.trim();
+            const em = document.getElementById('new-whitelist-email').value;
             const ex = document.getElementById('new-whitelist-expiry').value;
             if(!em) return;
-            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', em), {email:em, role:'user', expiryDate: ex || null, createdAt: serverTimestamp()});
+            await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'whitelist', em), {email:em, role:'user', expiryDate: ex || null});
             loadAdminData(); alert('Added');
         };
         window.delW = async (id) => { if(confirm('Del?')) { await deleteDoc(doc(db,'artifacts',appId,'public','data','whitelist',id)); loadAdminData(); }};
-        
-        window.resetSystem = async () => {
-             if(confirm("AWAS! Ini akan memadam SEMUA statistik download & cetak. Teruskan?")) {
-                 try {
-                     await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'stats', 'general'), { downloads: 0, prints: 0 });
-                     alert("Statistik telah di-reset.");
-                     loadAdminData();
-                 } catch(e) { alert("Ralat: " + e.message); }
-             }
-        };
-
         window.saveUserProfile = async () => {
              if(!currentUser) return;
              try {
@@ -690,14 +663,7 @@
                  alert("Profil Disimpan!");
              } catch(e) { alert("Ralat: " + e.message); }
         };
-        window.trackStat = async (k, templateId) => { 
-            try{ 
-                const ref = doc(db,'artifacts',appId,'public','data','stats','general');
-                const update = { [k]: increment(1) };
-                if (templateId) update[`template_${templateId}_${k}`] = increment(1);
-                await setDoc(ref, update, {merge:true}); 
-            } catch(e){} 
-        };
+        window.trackStat = async (k, t) => { try{ await setDoc(doc(db,'artifacts',appId,'public','data','stats','general'), {[k]:increment(1)}, {merge:true}); }catch(e){} };
         window.logActivity = async (e,a,d) => { try{ await addDoc(collection(db,'artifacts',appId,'public','data','logs'), {email:e,action:a,details:d,timestamp:serverTimestamp()}); }catch(e){} };
     </script>
 </body>
